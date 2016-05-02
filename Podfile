@@ -8,5 +8,6 @@ pod 'Masonry'
 pod 'AFNetworking', '~> 2.0'
 pod 'FMDB'
 pod 'YYModel'
+pod 'SDWebImage', '~> 3.7'
 
 end

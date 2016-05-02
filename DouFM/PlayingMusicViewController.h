@@ -7,7 +7,14 @@
 //
 
 #import "ViewController.h"
+@class MusicEntity;
+@class PlayingMusicView;
 
-@interface PlayingMusicViewController : ViewController
+@interface PlayingMusicViewController : UIViewController
+
+@property (strong, nonatomic) PlayingMusicView *playingMusicView;
+@property (strong, nonatomic) MusicEntity *musicEntity;
+
++ (instancetype)sharedInstance;
 
 @end

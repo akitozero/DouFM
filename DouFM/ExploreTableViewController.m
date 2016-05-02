@@ -9,6 +9,7 @@
 #import "ExploreTableViewController.h"
 #import "MusicListCell.h"
 #import "MusicEntity.h"
+#import "PlayingMusicViewController.h"
 #import <YYModel.h>
 #import <AFNetworking/AFNetworking.h>
 
@@ -23,8 +24,46 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.exploreMutableArray = [[NSMutableArray alloc] init];
+    
+    
+#pragma mark - check the domain is reachable
+    
+//    AFNetworkReachabilityManager *reachabilityManager = [AFNetworkReachabilityManager managerForDomain:@"www.baidu.com"];
+//    
+//    [reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+//        NSLog(@"%ld",(long)status);
+//        switch (status) {
+//            case AFNetworkReachabilityStatusReachableViaWWAN:
+//            {
+//                NSLog(@"AFNetworkReachabilityStatusReachableViaWWAN");
+//                break;
+//            }
+//            case AFNetworkReachabilityStatusReachableViaWiFi:
+//            {
+//                NSLog(@"AFNetworkReachabilityStatusReachableViaWiFi");
+//                break;
+//            }
+//            case AFNetworkReachabilityStatusNotReachable:
+//            {
+//                NSLog(@"AFNetworkReachabilityStatusNotReachable");
+//                break;
+//            }
+//            default:
+//            {
+//                NSLog(@"default");
+//                break;
+//            }
+//        }
+//    }];
+//    
+//    [reachabilityManager startMonitoring];
+    
+//    NSLog([reachabilityManager isReachable] ? @"YES" : @"NO");
+    
+    
+#pragma mark - get data from server
+    
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     [manager GET:@"http://doufm.info/api/playlist/52f8ca1d1d41c851663fcba7/?num=10" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSArray *responseArray = (NSArray *)responseObject;
@@ -43,6 +82,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 #pragma mark - Table view data source
 
@@ -71,7 +111,13 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    PlayingMusicViewController *playingMusicViewController = [PlayingMusicViewController sharedInstance];
+    MusicEntity *musicEntity = [self.exploreMutableArray objectAtIndex:indexPath.row];
+    playingMusicViewController.musicEntity = musicEntity;
+//    NSLog(@"%@--------",playingMusicViewController.musicEntity.title);
+//    playingMusicViewController.navigationItem.title = musicEntity.title;
+    [playingMusicViewController setHidesBottomBarWhenPushed:YES];
+    [self.navigationController pushViewController:playingMusicViewController animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

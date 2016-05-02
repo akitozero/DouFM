@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		79F3C9CBBAEB06AE8D5BB897 /* libPods-DouFM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC8071754791A70F85209BDA /* libPods-DouFM.a */; };
+		A6221B7C1CD77AEA003DE8C0 /* PlayingMusicView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6221B7B1CD77AEA003DE8C0 /* PlayingMusicView.m */; };
 		A65D25381CD34C3800218B59 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A65D25371CD34C3800218B59 /* main.m */; };
 		A65D253B1CD34C3800218B59 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A65D253A1CD34C3800218B59 /* AppDelegate.m */; };
 		A65D253E1CD34C3800218B59 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A65D253D1CD34C3800218B59 /* ViewController.m */; };
@@ -21,6 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A6221B7A1CD77AEA003DE8C0 /* PlayingMusicView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayingMusicView.h; sourceTree = "<group>"; };
+		A6221B7B1CD77AEA003DE8C0 /* PlayingMusicView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayingMusicView.m; sourceTree = "<group>"; };
 		A65D25331CD34C3800218B59 /* DouFM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DouFM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A65D25371CD34C3800218B59 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A65D25391CD34C3800218B59 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -159,6 +162,8 @@
 			children = (
 				A65D25651CD392FC00218B59 /* MusicListCell.h */,
 				A65D25661CD392FC00218B59 /* MusicListCell.m */,
+				A6221B7A1CD77AEA003DE8C0 /* PlayingMusicView.h */,
+				A6221B7B1CD77AEA003DE8C0 /* PlayingMusicView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -283,6 +288,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6221B7C1CD77AEA003DE8C0 /* PlayingMusicView.m in Sources */,
 				A65D25731CD4C0E700218B59 /* MyMusicTableViewController.m in Sources */,
 				A65D253E1CD34C3800218B59 /* ViewController.m in Sources */,
 				A65D25681CD392FC00218B59 /* MusicListCell.m in Sources */,

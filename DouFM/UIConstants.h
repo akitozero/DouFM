@@ -22,6 +22,8 @@
 #define kNumberFont [UIFont systemFontOfSize:17.0]
 #define kTitleFont [UIFont systemFontOfSize:16.0]
 #define kArtistFont [UIFont systemFontOfSize:12.0]
+#define kPlayingTitle [UIFont systemFontOfSize:20.0]
+#define kPlayingArtist [UIFont systemFontOfSize:15.0]
 
 //size
 #define kBannerHeight 36.0

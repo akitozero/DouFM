@@ -9,6 +9,6 @@
 #ifndef APIConstants_h
 #define APIConstants_h
 
-#define APIBaseURL      @"http://115.28.152.87/news/"
+#define APIBaseURL      @"http://doufm.info/"
 
 #endif /* APIConstants_h */

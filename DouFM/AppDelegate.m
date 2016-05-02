@@ -58,6 +58,7 @@
     [UINavigationBar appearance].tintColor = [UIColor whiteColor];
     [UINavigationBar appearance].barTintColor = HEXCOLOR(0xdf3031);
     [UINavigationBar appearance].titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
+//    [UINavigationBar appearance].translucent = NO;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
