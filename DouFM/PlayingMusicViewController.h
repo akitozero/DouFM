@@ -12,8 +12,10 @@
 
 @interface PlayingMusicViewController : UIViewController
 
+@property (copy, nonatomic) NSArray *musicEntityArray;
+@property (assign, nonatomic) NSInteger currentTrackIndex;
 @property (strong, nonatomic) PlayingMusicView *playingMusicView;
-@property (strong, nonatomic) MusicEntity *musicEntity;
+//@property (strong, nonatomic) MusicEntity *musicEntity;
 
 + (instancetype)sharedInstance;
 

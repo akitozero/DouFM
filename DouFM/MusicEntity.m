@@ -9,11 +9,11 @@
 #import "MusicEntity.h"
 
 @implementation MusicEntity
-
-+ (NSDictionary *)modelCustomPropertyMapper {
-    return @{@"publicTime" : @"public_time"
-             };
-}
+//
+//+ (NSDictionary *)modelCustomPropertyMapper {
+//    return @{@"publicTime" : @"public_time"
+//             };
+//}
 
 @end
 

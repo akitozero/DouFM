@@ -7,20 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <DOUAudioFile.h>
 
-@interface MusicEntity : NSObject
+@interface MusicEntity : NSObject <DOUAudioFile>
 
 @property (strong, nonatomic) NSString *album;
 @property (strong, nonatomic) NSString *artist;
-@property (strong, nonatomic) NSString *audio;
+@property (strong, nonatomic) NSURL *audioFileURL;
 @property (strong, nonatomic) NSString *company;
-@property (strong, nonatomic) NSString *cover;
+@property (strong, nonatomic) NSURL *cover;
 @property (strong, nonatomic) NSString *key;
 @property (strong, nonatomic) NSString *publicTime;
 @property (strong, nonatomic) NSString *title;
-
-+ (NSDictionary *)modelCustomPropertyMapper;
-
+//
+//+ (NSDictionary *)modelCustomPropertyMapper;
+//
 @end
 
 //"album": "掌心",

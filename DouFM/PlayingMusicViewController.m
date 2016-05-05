@@ -11,8 +11,19 @@
 #import "MusicEntity.h"
 #import <Masonry.h>
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <SDWebImagePrefetcher.h>
+#import <DOUAudioStreamer.h>
+#import <DOUAudioVisualizer.h>
+
+static void *kStatusKVOKey = &kStatusKVOKey;
+static void *kDurationKVOKey = &kDurationKVOKey;
+static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
 
 @interface PlayingMusicViewController ()
+
+@property (strong, nonatomic) NSTimer *timer;
+@property (strong, nonatomic) DOUAudioStreamer *streamer;
+@property (strong, nonatomic) UIVisualEffectView *visualEffectView;
 
 @end
 
@@ -40,20 +51,151 @@
 }
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
     NSLog(@"viewDidLoad");
-    self.edgesForExtendedLayout = UIRectEdgeNone;
+//    self.edgesForExtendedLayout = UIRectEdgeNone;
     self.view.backgroundColor = [UIColor whiteColor];
 //    self.view.clipsToBounds = YES;
     
-    self.playingMusicView = [[PlayingMusicView alloc] init];
+    self.playingMusicView = [[PlayingMusicView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:self.playingMusicView];
     [self configureClickEvent];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     [self configureDatas];
+    [self _resetStreamer];
+    
+    _timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(_timerAction:) userInfo:nil repeats:YES];
+//        [_volumeSlider setValue:[DOUAudioStreamer volume]];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [_timer invalidate];
+    [_streamer stop];
+    [self _cancelStreamer];
+    
+    [super viewWillDisappear:animated];
+}
+
+- (void)_cancelStreamer
+{
+    if (_streamer != nil) {
+        [_streamer pause];
+        [_streamer removeObserver:self forKeyPath:@"status"];
+        [_streamer removeObserver:self forKeyPath:@"duration"];
+        [_streamer removeObserver:self forKeyPath:@"bufferingRatio"];
+        _streamer = nil;
+    }
+}
+
+- (void)_resetStreamer
+{
+    [self _cancelStreamer];
+    MusicEntity *musicEntity = [self.musicEntityArray objectAtIndex:self.currentTrackIndex];
+//    NSString *title = [NSString stringWithFormat:@"%@ - %@", self.musicEntity.artist, self.musicEntity.title];
+//    [_titleLabel setText:title];
+    
+    _streamer = [DOUAudioStreamer streamerWithAudioFile:musicEntity];
+    [_streamer addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:kStatusKVOKey];
+    [_streamer addObserver:self forKeyPath:@"duration" options:NSKeyValueObservingOptionNew context:kDurationKVOKey];
+    [_streamer addObserver:self forKeyPath:@"bufferingRatio" options:NSKeyValueObservingOptionNew context:kBufferingRatioKVOKey];
+        
+    [_streamer play];
+        
+    [self _updateBufferingStatus];
+    [self _setupHintForStreamer];
+}
+
+- (void)_setupHintForStreamer
+{
+    NSUInteger nextIndex = self.currentTrackIndex + 1;
+    if (nextIndex >= [self.musicEntityArray count]) {
+        nextIndex = 0;
+    }
+    
+    [DOUAudioStreamer setHintWithAudioFile:[self.musicEntityArray objectAtIndex:nextIndex]];
+}
+
+- (void)_timerAction:(id)timer
+{
+    if ([_streamer duration] == 0.0) {
+        [self.playingMusicView.progressSlider setValue:0.0f animated:NO];
+    }
+    else {
+        [self.playingMusicView.progressSlider setValue:[_streamer currentTime] / [_streamer duration] animated:YES];
+    }
+}
+
+- (void)_updateStatus
+{
+    NSLog(@"_updateStatus");
+    switch ([_streamer status]) {
+        case DOUAudioStreamerPlaying:
+//            [_statusLabel setText:@"playing"];
+//            [_buttonPlayPause setTitle:@"Pause" forState:UIControlStateNormal];
+            break;
+            
+        case DOUAudioStreamerPaused:
+//            [_statusLabel setText:@"paused"];
+//            [_buttonPlayPause setTitle:@"Play" forState:UIControlStateNormal];
+            break;
+            
+        case DOUAudioStreamerIdle:
+//            [_statusLabel setText:@"idle"];
+//            [_buttonPlayPause setTitle:@"Play" forState:UIControlStateNormal];
+            break;
+            
+        case DOUAudioStreamerFinished:
+//            [_statusLabel setText:@"finished"];
+//            [self _actionNext:nil];
+            break;
+            
+        case DOUAudioStreamerBuffering:
+//            [_statusLabel setText:@"buffering"];
+            break;
+            
+        case DOUAudioStreamerError:
+//            [_statusLabel setText:@"error"];
+            break;
+    }
+}
+
+- (void)_updateBufferingStatus
+{
+    NSLog(@"_updateBufferingStatus");
+//    [_miscLabel setText:[NSString stringWithFormat:@"Received %.2f/%.2f MB (%.2f %%), Speed %.2f MB/s", (double)[_streamer receivedLength] / 1024 / 1024, (double)[_streamer expectedLength] / 1024 / 1024, [_streamer bufferingRatio] * 100.0, (double)[_streamer downloadSpeed] / 1024 / 1024]];
+//    
+//    if ([_streamer bufferingRatio] >= 1.0) {
+//        NSLog(@"sha256: %@", [_streamer sha256]);
+//    }
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (context == kStatusKVOKey) {
+        [self performSelector:@selector(_updateStatus)
+                     onThread:[NSThread mainThread]
+                   withObject:nil
+                waitUntilDone:NO];
+    }
+    else if (context == kDurationKVOKey) {
+        [self performSelector:@selector(_timerAction:)
+                     onThread:[NSThread mainThread]
+                   withObject:nil
+                waitUntilDone:NO];
+    }
+    else if (context == kBufferingRatioKVOKey) {
+        [self performSelector:@selector(_updateBufferingStatus)
+                     onThread:[NSThread mainThread]
+                   withObject:nil
+                waitUntilDone:NO];
+    }
+    else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 - (void)viewDidLayoutSubviews {
@@ -65,73 +207,110 @@
 }
 
 - (void)configureDatas {
-    NSLog(@"%@",self.musicEntity.title);
-    self.playingMusicView.titleLabel.text = self.musicEntity.title;
-    self.playingMusicView.artistLabel.text = self.musicEntity.artist;
-    NSString *coverURLString = [NSString stringWithFormat:@"%@%@",APIBaseURL,self.musicEntity.cover];
-//    UIImage *placeHolderImage = [UIImage imageNamed:@"music_placeholder"];
+    MusicEntity *musicEntity = [self.musicEntityArray objectAtIndex:self.currentTrackIndex];
+    NSLog(@"%@",musicEntity.title);
+    self.playingMusicView.titleLabel.text = musicEntity.title;
+    self.playingMusicView.artistLabel.text = musicEntity.artist;
     
-    [UIView transitionWithView:self.playingMusicView.coverImageView
-                      duration:1.0f
-                       options:UIViewAnimationOptionTransitionCrossDissolve
-                    animations:^{
-                        [self.playingMusicView.coverImageView sd_setImageWithURL:[NSURL URLWithString:coverURLString]];
-                    }
-                    completion:nil];
+    [self.playingMusicView.coverImageView sd_setImageWithURL:musicEntity.cover placeholderImage:[UIImage imageNamed:@"music_placeholder"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        CATransition *transition = [CATransition animation];
+        transition.duration = 1.0f;
+        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        transition.type = kCATransitionFade;
+        
+        [self.playingMusicView.coverImageView.layer addAnimation:transition forKey:nil];
+    }];
     
-    [UIView transitionWithView:self.playingMusicView.backgroundImageView
-                      duration:1.0f
-                       options:UIViewAnimationOptionTransitionCrossDissolve
-                    animations:^{
-                        [self.playingMusicView.backgroundImageView sd_setImageWithURL:[NSURL URLWithString:coverURLString]];
-                    }
-                    completion:nil];
+    [_playingMusicView.backgroundImageView sd_setImageWithURL:musicEntity.cover placeholderImage:[UIImage imageNamed:@"music_placeholder"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        if(![_visualEffectView isDescendantOfView:_playingMusicView.backgroundView]) {
+            NSLog(@"-----------------------");
+            UIVisualEffect *blurEffect;
+            blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+            _visualEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+            _visualEffectView.frame = self.view.bounds;
+            [_playingMusicView.backgroundView addSubview:_visualEffectView];
+        }
+        CATransition *transition = [CATransition animation];
+        transition.duration = 1.0f;
+        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        transition.type = kCATransitionFade;
+        
+        [self.playingMusicView.backgroundImageView.layer addAnimation:transition forKey:nil];
+    }];
+    
+    NSInteger preEntityIndex = _currentTrackIndex <= 0 ? self.musicEntityArray.count - 1 : _currentTrackIndex - 1;
+    NSInteger nextEntityIndex = _currentTrackIndex >= self.musicEntityArray.count - 1 ? 0 :_currentTrackIndex + 1;
+    MusicEntity *preEntity = [self.musicEntityArray objectAtIndex:preEntityIndex];
+    MusicEntity *nextEntity = [self.musicEntityArray objectAtIndex:nextEntityIndex];
+
+    [[SDWebImagePrefetcher sharedImagePrefetcher] prefetchURLs:@[preEntity.cover, nextEntity.cover]];
 }
 
 - (void)configureClickEvent {
-    [self.playingMusicView.isLikeButton addTarget:self action:@selector(isLikeButtonClicked) forControlEvents:UIControlEventTouchUpInside];
-    [self.playingMusicView.downloadButton addTarget:self action:@selector(downloadButtonClicked) forControlEvents:UIControlEventTouchUpInside];
-    [self.playingMusicView.playStyleButton addTarget:self action:@selector(playStyleButtonClicked) forControlEvents:UIControlEventTouchUpInside];
-    [self.playingMusicView.previousButton addTarget:self action:@selector(previousButtonClicked) forControlEvents:UIControlEventTouchUpInside];
-    [self.playingMusicView.pasueButton addTarget:self action:@selector(pasueButtonClicked) forControlEvents:UIControlEventTouchUpInside];
-    [self.playingMusicView.nextButton addTarget:self action:@selector(nextButtonClicked) forControlEvents:UIControlEventTouchUpInside];
-    [self.playingMusicView.shareButton addTarget:self action:@selector(shareButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.playingMusicView.isLikeButton addTarget:self action:@selector(actionLike:) forControlEvents:UIControlEventTouchUpInside];
+    [self.playingMusicView.downloadButton addTarget:self action:@selector(actionDownload:) forControlEvents:UIControlEventTouchUpInside];
+    [self.playingMusicView.playStyleButton addTarget:self action:@selector(actionPlayStyle:) forControlEvents:UIControlEventTouchUpInside];
+    [self.playingMusicView.previousButton addTarget:self action:@selector(actionPrevious:) forControlEvents:UIControlEventTouchUpInside];
+    [self.playingMusicView.pasueButton addTarget:self action:@selector(actionPasue:) forControlEvents:UIControlEventTouchUpInside];
+    [self.playingMusicView.nextButton addTarget:self action:@selector(actionNext:) forControlEvents:UIControlEventTouchUpInside];
+    [self.playingMusicView.shareButton addTarget:self action:@selector(actionShare:) forControlEvents:UIControlEventTouchUpInside];
 }
 
-//@property (strong, nonatomic) UIButton *isLikeButton;
-//@property (strong, nonatomic) UIButton *downloadButton;
-//@property (strong, nonatomic) UIButton *playStyleButton;
-//@property (strong, nonatomic) UIButton *previousButton;
-//@property (strong, nonatomic) UIButton *pasueButton;
-//@property (strong, nonatomic) UIButton *nextButton;
-//@property (strong, nonatomic) UIButton *shareButton;
-
-- (void)isLikeButtonClicked {
+- (void)actionLike:(id)sender {
     NSLog(@"isLikeButtonClicked");
+    
 }
 
-- (void)downloadButtonClicked {
+- (void)actionDownload:(id)sender {
     NSLog(@"downloadButtonClicked");
 }
 
-- (void)playStyleButtonClicked {
+- (void)actionPlayStyle:(id)sender {
     NSLog(@"playStyleButtonClicked");
 }
 
-- (void)previousButtonClicked {
+- (void)actionPrevious:(id)sender {
     NSLog(@"previousButtonClicked");
+    if (_currentTrackIndex <= [@0 integerValue]) {
+        self.currentTrackIndex = [self.musicEntityArray count] - 1;
+    }else{
+        self.currentTrackIndex--;
+    }
+    [self _resetStreamer];
 }
 
-- (void)pasueButtonClicked {
+- (void)actionPasue:(id)sender {
     NSLog(@"pasueButtonClicked");
+    if ([_streamer status] == DOUAudioStreamerPaused ||
+        [_streamer status] == DOUAudioStreamerIdle) {
+        [_streamer play];
+        [self.playingMusicView.pasueButton setImage:[UIImage imageNamed:@"big_pause_button"] forState:UIControlStateNormal];
+    }
+    else {
+        [_streamer pause];
+        [self.playingMusicView.pasueButton setImage:[UIImage imageNamed:@"big_play_button"] forState:UIControlStateNormal];
+    }
 }
 
-- (void)nextButtonClicked {
+- (void)actionNext:(id)sender {
     NSLog(@"nextButtonClicked");
+    if (_currentTrackIndex >= [self.musicEntityArray count]-1) {
+        self.currentTrackIndex = 0;
+    }else {
+        self.currentTrackIndex++;
+    }
+    
+    [self _resetStreamer];
 }
 
-- (void)shareButtonClicked {
+- (void)actionShare:(id)sender {
     NSLog(@"shareButtonClicked");
+}
+
+- (void)setCurrentTrackIndex:(NSInteger)currentTrackIndex {
+    NSLog(@"setCurrentTrackIndex-------%lu",(unsigned long)currentTrackIndex);
+    _currentTrackIndex = currentTrackIndex;
+    [self configureDatas];
 }
 
 - (void)didReceiveMemoryWarning {
