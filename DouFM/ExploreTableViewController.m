@@ -54,24 +54,6 @@
         NSLog(@"Error: %@", error);
     }];
 }
-//@property (strong, nonatomic) NSString *album;
-//@property (strong, nonatomic) NSString *artist;
-//@property (strong, nonatomic) NSURL *audio;
-//@property (strong, nonatomic) NSString *company;
-//@property (strong, nonatomic) NSURL *cover;
-//@property (strong, nonatomic) NSString *key;
-//@property (strong, nonatomic) NSString *publicTime;
-//@property (strong, nonatomic) NSString *title;
-//album = "\U5fc3\U5f97\U7cbe\U9009";
-//artist = "\U91d1\U6d77\U5fc3";
-//audio = "/api/fs/52faf2481d41c813295bbbbe/";
-//company = EMI;
-//cover = "/api/fs/52faf2481d41c813295bbbbc/";
-//kbps = 64;
-//key = 52faf24b1d41c813295bbbc6;
-//"public_time" = 2003;
-//title = "\U628a\U8033\U6735\U53eb\U9192";
-//"upload_date" = "Wed, 12 Feb 2014 12:02:19 -0000";
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

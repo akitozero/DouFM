@@ -68,7 +68,10 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
     [self _resetStreamer];
     
     _timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(_timerAction:) userInfo:nil repeats:YES];
-//        [_volumeSlider setValue:[DOUAudioStreamer volume]];
+    
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -78,6 +81,7 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
     [self _cancelStreamer];
     
     [super viewWillDisappear:animated];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"themeColor"] forBarMetrics:UIBarMetricsDefault];
 }
 
 - (void)_cancelStreamer

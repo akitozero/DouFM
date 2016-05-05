@@ -55,10 +55,14 @@
     [UITabBar appearance].tintColor = HEXCOLOR(0xdf3031);
     [UITabBar appearance].barTintColor = HEXCOLOR(0xf5f5f5);
     
-    [UINavigationBar appearance].tintColor = [UIColor whiteColor];
-    [UINavigationBar appearance].barTintColor = HEXCOLOR(0xdf3031);
+    [UINavigationBar appearance].tintColor = [UIColor blackColor];
+//    [UINavigationBar appearance].barTintColor = HEXCOLOR(0xdf3031);
     [UINavigationBar appearance].titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
-//    [UINavigationBar appearance].translucent = NO;
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"themeColor"] forBarMetrics: UIBarMetricsDefault];
+    [[UINavigationBar appearance] setTranslucent:YES];
+    [[UINavigationBar appearance] setShadowImage:[UIImage new]];
+//    self.navigationController.navigationBar.shadowImage = [UIImage new];
+//    self.navigationController.navigationBar.translucent = YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
