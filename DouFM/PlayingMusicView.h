@@ -11,8 +11,9 @@
 @interface PlayingMusicView : UIView
 
 @property (strong, nonatomic) UIImageView *coverImageView;
+@property (strong, nonatomic) UIView *backgroundView;
 @property (strong, nonatomic) UIImageView *backgroundImageView;
-@property (strong, nonatomic) UIVisualEffectView *visualEffectView;
+//@property (strong, nonatomic) UIVisualEffectView *visualEffectView;
 @property (strong, nonatomic) UIButton *isLikeButton;
 @property (strong, nonatomic) UIButton *downloadButton;
 @property (strong, nonatomic) UIButton *playStyleButton;

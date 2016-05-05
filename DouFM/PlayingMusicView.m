@@ -15,7 +15,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
-//        self.clipsToBounds = YES;
+        NSLog(@"=============================");
         [self configureSubviews];
     }
     return self;
@@ -26,6 +26,7 @@
 }
 
 - (void)configureSubviews {
+    self.backgroundView = [[UIView alloc] init];
     self.backgroundImageView = [[UIImageView alloc] init];
     self.coverImageView = [[UIImageView alloc] init];
     self.isLikeButton = [[UIButton alloc] init];
@@ -42,7 +43,8 @@
     self.progressSlider = [[UISlider alloc] init];
     
     //add views to self.view
-    [self addSubview:self.backgroundImageView];
+    [self addSubview:self.backgroundView];
+    [self.backgroundView addSubview:self.backgroundImageView];
     [self addSubview:self.coverImageView];
     [self addSubview:self.isLikeButton];
     [self addSubview:self.downloadButton];
@@ -66,9 +68,9 @@
     [self.backgroundImageView setContentMode:UIViewContentModeScaleToFill];
     [self.backgroundImageView setImage:cover];
     
-    self.visualEffectView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
-    [self.backgroundImageView addSubview:self.visualEffectView];
-    [self.backgroundImageView addSubview:self.visualEffectView];
+//    self.visualEffectView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
+//    [self.backgroundImageView addSubview:self.visualEffectView];
+//    [self.backgroundImageView addSubview:self.visualEffectView];
     
     [self.isLikeButton setImage:[UIImage imageNamed:@"empty_heart"] forState:UIControlStateNormal];
     
@@ -84,9 +86,9 @@
     [self.artistLabel setFont:kPlayingArtist];
     [self.artistLabel setTextColor:[UIColor whiteColor]];
     
-//    [self.progressSlider setMaximumValue:1.0];
-//    [self.progressSlider setMinimumValue:0.0];
-//    [self.progressSlider setValue:0.5];
+    [self.progressSlider setMaximumValue:1.0];
+    [self.progressSlider setMinimumValue:0.0];
+    [self.progressSlider setValue:0.0];
     [self.progressSlider setThumbTintColor:HEXCOLOR(0xdf3031)];
     [self.progressSlider setMinimumTrackTintColor:HEXCOLOR(0xdf3031)];
     [self.progressSlider setThumbImage:[UIImage imageNamed:@"music_slider_circle"] forState:UIControlStateHighlighted];
@@ -107,19 +109,21 @@
 
 - (void)configureSubviewsLayout {
     [self.coverImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.mas_top).with.offset(40);
+        make.top.equalTo(self.mas_top).with.offset(80);
         make.centerX.equalTo(self.mas_centerX).with.offset(0);
         make.width.equalTo(@250);
         make.height.equalTo(@250);
     }];
     
     UIEdgeInsets padding = UIEdgeInsetsMake(0, 0, 0, 0);
+    [self.backgroundView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self).with.insets(padding);
+    }];
+    
     [self.backgroundImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self).with.insets(padding);
     }];
     
-    
-    self.visualEffectView.frame = self.bounds;
     NSLog(@"%f---%f---%f---%f",self.frame.origin.x,self.frame.origin.y,self.frame.size.width,self.frame.size.height);
     
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -139,17 +143,17 @@
     }];
     
     [self.isLikeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleLabel.mas_top).with.offset(18);
+        make.top.equalTo(self.titleLabel.mas_top).with.offset(35);
         make.right.equalTo(self.mas_right).with.offset(-30);
     }];
     
     [self.downloadButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleLabel.mas_top).with.offset(18);
+        make.top.equalTo(self.titleLabel.mas_top).with.offset(35);
         make.left.equalTo(self.mas_left).with.offset(30);
     }];
     
     [self.progressSlider mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.artistLabel.mas_bottom).with.offset(10);
+        make.top.equalTo(self.artistLabel.mas_bottom).with.offset(15);
         make.left.equalTo(self.mas_left).with.offset(50);
         make.right.equalTo(self.mas_right).with.offset(-50);
         make.height.equalTo(@30);
