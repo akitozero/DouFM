@@ -13,6 +13,7 @@
 @property (strong, nonatomic) UILabel *numberLabel;
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UILabel *artistLabel;
+@property (strong, nonatomic) UIImageView *playingImageView;
 
 
 @end

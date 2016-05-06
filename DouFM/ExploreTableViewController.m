@@ -14,7 +14,7 @@
 #import <AFNetworking/AFNetworking.h>
 #import <FMDB.h>
 
-@interface ExploreTableViewController ()
+@interface ExploreTableViewController () <CurrentPlayingIndexDelegate>
 
 @property (strong, nonatomic) NSMutableArray *exploreMutableArray;
 
@@ -35,7 +35,7 @@
         NSArray *responseArray = (NSArray *)responseObject;
         [responseArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             NSDictionary *dict = obj;
-            NSLog(@"dict----%@",dict);
+//            NSLog(@"dict----%@",dict);
             MusicEntity *musicEntity = [[MusicEntity alloc] init];
             musicEntity.album = [dict objectForKey:@"album"];
             musicEntity.artist = [dict objectForKey:@"artist"];
@@ -47,7 +47,7 @@
             musicEntity.title = [dict objectForKey:@"title"];
             musicEntity.isFavorite = [self checkIsFavorite:musicEntity.key];
             
-            NSLog(@"%@",musicEntity.audioFileURL);
+//            NSLog(@"%@",musicEntity.audioFileURL);
             [self.exploreMutableArray addObject:musicEntity];
         }];
         [self.tableView reloadData];
@@ -56,11 +56,16 @@
     }];
 }
 
+//- (void)viewWillAppear:(BOOL)animated {
+//    [super viewWillAppear:animated];
+//    self.tableView
+//}
+
 - (BOOL)checkIsFavorite:(NSString *)key{
     NSArray *docPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDir = [docPaths objectAtIndex:0];
     NSString *dbPath = [documentsDir   stringByAppendingPathComponent:@"DouFM.sqlite"];
-    NSLog(@"%@+++++++",dbPath);
+//    NSLog(@"%@+++++++",dbPath);
     FMDatabase *database = [FMDatabase databaseWithPath:dbPath];
     [database open];
     FMResultSet *result = [database executeQuery:@"select * from favorite where key = ?",key];
@@ -90,6 +95,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    NSLog(@"%ld+++++++%ld",(long)indexPath.section,(long)indexPath.row);
     MusicListCell *musicListCell = (MusicListCell *)[tableView dequeueReusableCellWithIdentifier:@"MusicListCell"];
     if (!musicListCell) {
         musicListCell = [[MusicListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"MusicListCell"];
@@ -101,21 +107,36 @@
     musicListCell.numberLabel.text = [NSString stringWithFormat:@"%ld",(long)indexPath.row];
     musicListCell.titleLabel.text = musicEntity.title;
     musicListCell.artistLabel.text = musicEntity.artist;
+   
+    if (self.playingMusicViewController) {
+        NSLog(@"%ld=================",(long)self.playingMusicViewController.currentTrackIndex);
+        if (self.playingMusicViewController.currentTrackIndex == indexPath.row) {
+            musicListCell.playingImageView.hidden = NO;
+        }else{
+            musicListCell.playingImageView.hidden = YES;
+        }
+    }else{
+        musicListCell.playingImageView.hidden = YES;
+    }
     
     return musicListCell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    PlayingMusicViewController *playingMusicViewController = [PlayingMusicViewController sharedInstance];
-//    MusicEntity *musicEntity = [self.exploreMutableArray objectAtIndex:indexPath.row];
-    playingMusicViewController.musicEntityArray = [self.exploreMutableArray copy];
-    NSLog(@"%ld-------",(long)indexPath.row);
-    playingMusicViewController.currentTrackIndex = indexPath.row;
-//    NSLog(@"%@--------",playingMusicViewController.musicEntity.title);
-//    playingMusicViewController.navigationItem.title = musicEntity.title;
-    [playingMusicViewController setHidesBottomBarWhenPushed:YES];
-    [self.navigationController pushViewController:playingMusicViewController animated:YES];
+    self.playingMusicViewController = [PlayingMusicViewController sharedInstance];
+    self.playingMusicViewController.musicEntityArray = [self.exploreMutableArray copy];
+    self.playingMusicViewController.delegate = self;
+    self.playingMusicViewController.currentTrackIndex = indexPath.row;
+    [self.playingMusicViewController setHidesBottomBarWhenPushed:YES];
+    [self.navigationController pushViewController:self.playingMusicViewController animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+
+#pragma mark - CurrentPlayingIndexDelegate
+
+- (void)reloadTableView {
+    [self.tableView reloadData];
 }
 
 /*

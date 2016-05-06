@@ -349,8 +349,11 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
 
 - (void)setCurrentTrackIndex:(NSInteger)currentTrackIndex {
     NSLog(@"setCurrentTrackIndex-------%lu",(unsigned long)currentTrackIndex);
+//    [self.delegate removePlayingImageForCellAt:_currentTrackIndex];
     _currentTrackIndex = currentTrackIndex;
     [self configureDatas];
+    [self.delegate reloadTableView];
+//    [self.delegate addPlayingImageForCellAt:currentTrackIndex];
 }
 
 - (void)didReceiveMemoryWarning {
