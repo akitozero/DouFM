@@ -33,7 +33,7 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
   - DOUAudioStreamer
-  - FMDB
+  - FMDB (~> 2.6)
   - Masonry
   - SDWebImage (~> 3.7)
   - YYModel

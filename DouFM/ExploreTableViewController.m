@@ -9,10 +9,10 @@
 #import "ExploreTableViewController.h"
 #import "MusicListCell.h"
 #import "MusicEntity.h"
-#import "Track.h"
 #import "PlayingMusicViewController.h"
 #import <YYModel.h>
 #import <AFNetworking/AFNetworking.h>
+#import <FMDB.h>
 
 @interface ExploreTableViewController ()
 
@@ -45,6 +45,7 @@
             musicEntity.key = [dict objectForKey:@"key"];
             musicEntity.publicTime = [dict objectForKey:@"public_time"];
             musicEntity.title = [dict objectForKey:@"title"];
+            musicEntity.isFavorite = [self checkIsFavorite:musicEntity.key];
             
             NSLog(@"%@",musicEntity.audioFileURL);
             [self.exploreMutableArray addObject:musicEntity];
@@ -53,6 +54,23 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
     }];
+}
+
+- (BOOL)checkIsFavorite:(NSString *)key{
+    NSArray *docPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDir = [docPaths objectAtIndex:0];
+    NSString *dbPath = [documentsDir   stringByAppendingPathComponent:@"DouFM.sqlite"];
+    NSLog(@"%@+++++++",dbPath);
+    FMDatabase *database = [FMDatabase databaseWithPath:dbPath];
+    [database open];
+    FMResultSet *result = [database executeQuery:@"select * from favorite where key = ?",key];
+    
+    [database close];
+    if ([result next]) {
+        return YES;
+    }else{
+        return NO;
+    }
 }
 
 - (void)didReceiveMemoryWarning {

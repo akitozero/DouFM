@@ -14,6 +14,7 @@
 #import <SDWebImagePrefetcher.h>
 #import <DOUAudioStreamer.h>
 #import <DOUAudioVisualizer.h>
+#import <FMDB.h>
 
 static void *kStatusKVOKey = &kStatusKVOKey;
 static void *kDurationKVOKey = &kDurationKVOKey;
@@ -77,8 +78,8 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
 - (void)viewWillDisappear:(BOOL)animated
 {
     [_timer invalidate];
-    [_streamer stop];
-    [self _cancelStreamer];
+//    [_streamer stop];
+//    [self _cancelStreamer];
     
     [super viewWillDisappear:animated];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"themeColor"] forBarMetrics:UIBarMetricsDefault];
@@ -99,8 +100,6 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
 {
     [self _cancelStreamer];
     MusicEntity *musicEntity = [self.musicEntityArray objectAtIndex:self.currentTrackIndex];
-//    NSString *title = [NSString stringWithFormat:@"%@ - %@", self.musicEntity.artist, self.musicEntity.title];
-//    [_titleLabel setText:title];
     
     _streamer = [DOUAudioStreamer streamerWithAudioFile:musicEntity];
     [_streamer addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:kStatusKVOKey];
@@ -154,7 +153,7 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
             
         case DOUAudioStreamerFinished:
 //            [_statusLabel setText:@"finished"];
-//            [self _actionNext:nil];
+            [self.playingMusicView.nextButton sendActionsForControlEvents:UIControlEventTouchUpInside];
             break;
             
         case DOUAudioStreamerBuffering:
@@ -216,6 +215,12 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
     self.playingMusicView.titleLabel.text = musicEntity.title;
     self.playingMusicView.artistLabel.text = musicEntity.artist;
     
+    if (musicEntity.isFavorite) {
+        [self.playingMusicView.isLikeButton setImage:[UIImage imageNamed:@"red_heart"] forState:UIControlStateNormal];
+    }else{
+        [self.playingMusicView.isLikeButton setImage:[UIImage imageNamed:@"empty_heart"] forState:UIControlStateNormal];
+    }
+    
     [self.playingMusicView.coverImageView sd_setImageWithURL:musicEntity.cover placeholderImage:[UIImage imageNamed:@"music_placeholder"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         CATransition *transition = [CATransition animation];
         transition.duration = 1.0f;
@@ -262,8 +267,39 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
 
 - (void)actionLike:(id)sender {
     NSLog(@"isLikeButtonClicked");
+    NSArray *docPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDir = [docPaths objectAtIndex:0];
+    NSString *dbPath = [documentsDir   stringByAppendingPathComponent:@"DouFM.sqlite"];
+    FMDatabase *database = [FMDatabase databaseWithPath:dbPath];
+    [database open];
+    MusicEntity *musicEntity = [self.musicEntityArray objectAtIndex:_currentTrackIndex];
+    FMResultSet *result = [database executeQuery:@"select * from favorite where key = ?",musicEntity.key];
     
+    if ([result next]) {
+        BOOL success = [database executeUpdate:@"delete from favorite where key = ?",musicEntity.key];
+        if (success) {
+            [self.playingMusicView.isLikeButton setImage:[UIImage imageNamed:@"empty_heart"] forState:UIControlStateNormal];
+            musicEntity.isFavorite = NO;
+        }
+    }else{
+        BOOL success = [database executeUpdate:@"insert into favorite (key, title, artist, album, company, coverURL, publicTime, audioFileURL) values (?, ?, ?, ?, ?, ?, ?, ?)",musicEntity.key, musicEntity.title, musicEntity.artist, musicEntity.album, musicEntity.company, [musicEntity.cover absoluteString], musicEntity.publicTime, [musicEntity.audioFileURL absoluteString]];
+        if (success) {
+            [self.playingMusicView.isLikeButton setImage:[UIImage imageNamed:@"red_heart"] forState:UIControlStateNormal];
+            musicEntity.isFavorite = YES;
+        }
+    }
+    [database close];
 }
+
+//id INTEGER  PRIMARY KEY DEFAULT NULL,
+//key TEXT DEFAULT NULL,
+//title TEXT DEFAULT NULL,
+//artist TEXT DEFAULT NULL,
+//album TEXT DEFAULT NULL,
+//company TEXT DEFAULT NULL,
+//coverURL TEXT DEFAULT NULL,
+//publicTime TEXT DEFAULT NULL,
+//audioFileURL TEXT DEFAULT NULL,
 
 - (void)actionDownload:(id)sender {
     NSLog(@"downloadButtonClicked");

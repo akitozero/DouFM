@@ -12,6 +12,7 @@
 @interface MusicEntity : NSObject <DOUAudioFile>
 
 @property (strong, nonatomic) NSString *album;
+@property (assign, nonatomic) BOOL isFavorite;
 @property (strong, nonatomic) NSString *artist;
 @property (strong, nonatomic) NSURL *audioFileURL;
 @property (strong, nonatomic) NSString *company;

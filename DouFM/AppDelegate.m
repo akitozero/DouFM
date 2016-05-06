@@ -10,6 +10,7 @@
 #import "ViewController.h"
 #import "ExploreTableViewController.h"
 #import "MyMusicTableViewController.h"
+#import <FMDB.h>
 
 @interface AppDelegate ()
 
@@ -22,6 +23,21 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    //检查是不是第一次启动
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
+        NSLog(@"this is the first launch of DouFM");
+        //创建数据库
+        NSArray *docPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDir = [docPaths objectAtIndex:0];
+        NSString *dbPath = [documentsDir   stringByAppendingPathComponent:@"DouFM.sqlite"];
+        FMDatabase *database = [FMDatabase databaseWithPath:dbPath];
+        [database open];
+        [database executeUpdate:@"CREATE TABLE favorite (id INTEGER PRIMARY KEY DEFAULT NULL,key TEXT DEFAULT NULL,title TEXT DEFAULT NULL,artist TEXT DEFAULT NULL,album TEXT DEFAULT NULL,company TEXT DEFAULT NULL,coverURL TEXT DEFAULT NULL,publicTime TEXT DEFAULT NULL,audioFileURL TEXT DEFAULT NULL)"];
+        [database close];
+    }
+    
+    
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
 //    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     [self setupTabBarController];

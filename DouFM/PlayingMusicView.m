@@ -72,7 +72,7 @@
 //    [self.backgroundImageView addSubview:self.visualEffectView];
 //    [self.backgroundImageView addSubview:self.visualEffectView];
     
-    [self.isLikeButton setImage:[UIImage imageNamed:@"empty_heart"] forState:UIControlStateNormal];
+//    [self.isLikeButton setImage:[UIImage imageNamed:@"empty_heart"] forState:UIControlStateNormal];
     
     [self.downloadButton setImage:[UIImage imageNamed:@"download"] forState:UIControlStateNormal];
     

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		79F3C9CBBAEB06AE8D5BB897 /* libPods-DouFM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC8071754791A70F85209BDA /* libPods-DouFM.a */; };
 		A6221B7C1CD77AEA003DE8C0 /* PlayingMusicView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6221B7B1CD77AEA003DE8C0 /* PlayingMusicView.m */; };
-		A6240E591CD9AAF000E659A7 /* Track.m in Sources */ = {isa = PBXBuildFile; fileRef = A6240E581CD9AAF000E659A7 /* Track.m */; };
 		A65D25381CD34C3800218B59 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A65D25371CD34C3800218B59 /* main.m */; };
 		A65D253B1CD34C3800218B59 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A65D253A1CD34C3800218B59 /* AppDelegate.m */; };
 		A65D253E1CD34C3800218B59 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A65D253D1CD34C3800218B59 /* ViewController.m */; };
@@ -25,8 +24,6 @@
 /* Begin PBXFileReference section */
 		A6221B7A1CD77AEA003DE8C0 /* PlayingMusicView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayingMusicView.h; sourceTree = "<group>"; };
 		A6221B7B1CD77AEA003DE8C0 /* PlayingMusicView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayingMusicView.m; sourceTree = "<group>"; };
-		A6240E571CD9AAF000E659A7 /* Track.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Track.h; sourceTree = "<group>"; };
-		A6240E581CD9AAF000E659A7 /* Track.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Track.m; sourceTree = "<group>"; };
 		A65D25331CD34C3800218B59 /* DouFM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DouFM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A65D25371CD34C3800218B59 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A65D25391CD34C3800218B59 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -143,8 +140,6 @@
 			children = (
 				A69F856C1CD5047C00BEEEFD /* MusicEntity.h */,
 				A69F856D1CD5047C00BEEEFD /* MusicEntity.m */,
-				A6240E571CD9AAF000E659A7 /* Track.h */,
-				A6240E581CD9AAF000E659A7 /* Track.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -297,7 +292,6 @@
 				A6221B7C1CD77AEA003DE8C0 /* PlayingMusicView.m in Sources */,
 				A65D25731CD4C0E700218B59 /* MyMusicTableViewController.m in Sources */,
 				A65D253E1CD34C3800218B59 /* ViewController.m in Sources */,
-				A6240E591CD9AAF000E659A7 /* Track.m in Sources */,
 				A65D25681CD392FC00218B59 /* MusicListCell.m in Sources */,
 				A69F85711CD5184A00BEEEFD /* PlayingMusicViewController.m in Sources */,
 				A69F856E1CD5047C00BEEEFD /* MusicEntity.m in Sources */,
