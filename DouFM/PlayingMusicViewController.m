@@ -238,6 +238,7 @@ static void *kDurationKVOKey = &kDurationKVOKey;
     [self.playingMusicView.pasueButton addTarget:self action:@selector(actionPasue:) forControlEvents:UIControlEventTouchUpInside];
     [self.playingMusicView.nextButton addTarget:self action:@selector(actionNext:) forControlEvents:UIControlEventTouchUpInside];
     [self.playingMusicView.shareButton addTarget:self action:@selector(actionShare:) forControlEvents:UIControlEventTouchUpInside];
+    [self.playingMusicView.progressSlider addTarget:self action:@selector(actionProgressValueChange:) forControlEvents:UIControlEventValueChanged];
 }
 
 - (void)actionLike:(id)sender {
@@ -310,6 +311,11 @@ static void *kDurationKVOKey = &kDurationKVOKey;
 
 - (void)actionShare:(id)sender {
     NSLog(@"shareButtonClicked");
+}
+
+- (void)actionProgressValueChange:(id)sender {
+    NSLog(@"actionProgressValueChange");
+    [self.streamer setCurrentTime:self.streamer.duration * self.playingMusicView.progressSlider.value];
 }
 
 - (void)setCurrentTrackIndex:(NSInteger)currentTrackIndex {
