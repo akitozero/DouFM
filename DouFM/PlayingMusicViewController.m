@@ -18,7 +18,6 @@
 
 static void *kStatusKVOKey = &kStatusKVOKey;
 static void *kDurationKVOKey = &kDurationKVOKey;
-static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
 
 @interface PlayingMusicViewController ()
 
@@ -91,7 +90,6 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
         [_streamer pause];
         [_streamer removeObserver:self forKeyPath:@"status"];
         [_streamer removeObserver:self forKeyPath:@"duration"];
-        [_streamer removeObserver:self forKeyPath:@"bufferingRatio"];
         _streamer = nil;
     }
 }
@@ -104,11 +102,9 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
     _streamer = [DOUAudioStreamer streamerWithAudioFile:musicEntity];
     [_streamer addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:kStatusKVOKey];
     [_streamer addObserver:self forKeyPath:@"duration" options:NSKeyValueObservingOptionNew context:kDurationKVOKey];
-    [_streamer addObserver:self forKeyPath:@"bufferingRatio" options:NSKeyValueObservingOptionNew context:kBufferingRatioKVOKey];
-        
+    
     [_streamer play];
-        
-    [self _updateBufferingStatus];
+    
     [self _setupHintForStreamer];
 }
 
@@ -137,43 +133,28 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
     NSLog(@"_updateStatus");
     switch ([_streamer status]) {
         case DOUAudioStreamerPlaying:
-//            [_statusLabel setText:@"playing"];
-//            [_buttonPlayPause setTitle:@"Pause" forState:UIControlStateNormal];
+            [self.playingMusicView.pasueButton setImage:[UIImage imageNamed:@"big_pause_button"] forState:UIControlStateNormal];
             break;
             
         case DOUAudioStreamerPaused:
-//            [_statusLabel setText:@"paused"];
-//            [_buttonPlayPause setTitle:@"Play" forState:UIControlStateNormal];
+            [self.playingMusicView.pasueButton setImage:[UIImage imageNamed:@"big_play_button"] forState:UIControlStateNormal];
             break;
             
-        case DOUAudioStreamerIdle:
-//            [_statusLabel setText:@"idle"];
-//            [_buttonPlayPause setTitle:@"Play" forState:UIControlStateNormal];
+        case DOUAudioStreamerIdle:            [self.playingMusicView.pasueButton setImage:[UIImage imageNamed:@"big_play_button"] forState:UIControlStateNormal];
             break;
             
         case DOUAudioStreamerFinished:
-//            [_statusLabel setText:@"finished"];
             [self.playingMusicView.nextButton sendActionsForControlEvents:UIControlEventTouchUpInside];
             break;
             
         case DOUAudioStreamerBuffering:
-//            [_statusLabel setText:@"buffering"];
+            NSLog(@"DOUAudioStreamerBuffering");
             break;
             
         case DOUAudioStreamerError:
-//            [_statusLabel setText:@"error"];
+            NSLog(@"DOUAudioStreamerError");
             break;
     }
-}
-
-- (void)_updateBufferingStatus
-{
-    NSLog(@"_updateBufferingStatus");
-//    [_miscLabel setText:[NSString stringWithFormat:@"Received %.2f/%.2f MB (%.2f %%), Speed %.2f MB/s", (double)[_streamer receivedLength] / 1024 / 1024, (double)[_streamer expectedLength] / 1024 / 1024, [_streamer bufferingRatio] * 100.0, (double)[_streamer downloadSpeed] / 1024 / 1024]];
-//    
-//    if ([_streamer bufferingRatio] >= 1.0) {
-//        NSLog(@"sha256: %@", [_streamer sha256]);
-//    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -186,12 +167,6 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
     }
     else if (context == kDurationKVOKey) {
         [self performSelector:@selector(_timerAction:)
-                     onThread:[NSThread mainThread]
-                   withObject:nil
-                waitUntilDone:NO];
-    }
-    else if (context == kBufferingRatioKVOKey) {
-        [self performSelector:@selector(_updateBufferingStatus)
                      onThread:[NSThread mainThread]
                    withObject:nil
                 waitUntilDone:NO];
@@ -291,16 +266,6 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
     [database close];
 }
 
-//id INTEGER  PRIMARY KEY DEFAULT NULL,
-//key TEXT DEFAULT NULL,
-//title TEXT DEFAULT NULL,
-//artist TEXT DEFAULT NULL,
-//album TEXT DEFAULT NULL,
-//company TEXT DEFAULT NULL,
-//coverURL TEXT DEFAULT NULL,
-//publicTime TEXT DEFAULT NULL,
-//audioFileURL TEXT DEFAULT NULL,
-
 - (void)actionDownload:(id)sender {
     NSLog(@"downloadButtonClicked");
 }
@@ -349,28 +314,15 @@ static void *kBufferingRatioKVOKey = &kBufferingRatioKVOKey;
 
 - (void)setCurrentTrackIndex:(NSInteger)currentTrackIndex {
     NSLog(@"setCurrentTrackIndex-------%lu",(unsigned long)currentTrackIndex);
-//    [self.delegate removePlayingImageForCellAt:_currentTrackIndex];
     _currentTrackIndex = currentTrackIndex;
     [self configureDatas];
     [self.delegate reloadTableView];
-//    [self.delegate addPlayingImageForCellAt:currentTrackIndex];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
 
