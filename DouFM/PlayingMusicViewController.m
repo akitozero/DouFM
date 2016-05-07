@@ -133,17 +133,22 @@ static void *kDurationKVOKey = &kDurationKVOKey;
     NSLog(@"_updateStatus");
     switch ([_streamer status]) {
         case DOUAudioStreamerPlaying:
+            NSLog(@"DOUAudioStreamerPlaying");
             [self.playingMusicView.pasueButton setImage:[UIImage imageNamed:@"big_pause_button"] forState:UIControlStateNormal];
             break;
             
         case DOUAudioStreamerPaused:
+            NSLog(@"DOUAudioStreamerPaused");
             [self.playingMusicView.pasueButton setImage:[UIImage imageNamed:@"big_play_button"] forState:UIControlStateNormal];
             break;
             
-        case DOUAudioStreamerIdle:            [self.playingMusicView.pasueButton setImage:[UIImage imageNamed:@"big_play_button"] forState:UIControlStateNormal];
+        case DOUAudioStreamerIdle:
+            NSLog(@"DOUAudioStreamerIdle");
+            [self.playingMusicView.pasueButton setImage:[UIImage imageNamed:@"big_play_button"] forState:UIControlStateNormal];
             break;
             
         case DOUAudioStreamerFinished:
+            NSLog(@"DOUAudioStreamerFinished");
             [self.playingMusicView.nextButton sendActionsForControlEvents:UIControlEventTouchUpInside];
             break;
             

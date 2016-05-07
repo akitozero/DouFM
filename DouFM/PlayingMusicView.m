@@ -15,7 +15,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
-        NSLog(@"=============================");
+//        NSLog(@"=============================");
+//        NSLog(@"%f-------%f", kWidthScale, kHeightScale);
         [self configureSubviews];
     }
     return self;
@@ -109,10 +110,10 @@
 
 - (void)configureSubviewsLayout {
     [self.coverImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.mas_top).with.offset(80);
+        make.top.equalTo(self.mas_top).with.offset(90*kHeightScale);
         make.centerX.equalTo(self.mas_centerX).with.offset(0);
-        make.width.equalTo(@250);
-        make.height.equalTo(@250);
+        make.width.equalTo(@(250*kWidthScale));
+        make.height.equalTo(@(250*kWidthScale));
     }];
     
     UIEdgeInsets padding = UIEdgeInsetsMake(0, 0, 0, 0);
@@ -127,63 +128,63 @@
     NSLog(@"%f---%f---%f---%f",self.frame.origin.x,self.frame.origin.y,self.frame.size.width,self.frame.size.height);
     
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.coverImageView.mas_bottom).with.offset(20);
+        make.top.equalTo(self.coverImageView.mas_bottom).with.offset(20*kHeightScale);
         make.centerX.equalTo(self.mas_centerX).with.offset(0);
         make.left.equalTo(self.mas_left).with.offset(0);
         make.right.equalTo(self.mas_right).with.offset(0);
-        make.height.equalTo(@30);
+        make.height.equalTo(@(30*kHeightScale));
     }];
     
     [self.artistLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleLabel.mas_bottom).with.offset(3);
+        make.top.equalTo(self.titleLabel.mas_bottom).with.offset(3*kHeightScale);
         make.centerX.equalTo(self.mas_centerX).with.offset(0);
         make.left.equalTo(self.mas_left).with.offset(0);
         make.right.equalTo(self.mas_right).with.offset(0);
-        make.height.equalTo(@20);
+        make.height.equalTo(@(20*kHeightScale));
     }];
     
     [self.isLikeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleLabel.mas_top).with.offset(35);
-        make.right.equalTo(self.mas_right).with.offset(-30);
+        make.top.equalTo(self.titleLabel.mas_top).with.offset(35*kHeightScale);
+        make.right.equalTo(self.mas_right).with.offset(-30*kWidthScale);
     }];
     
     [self.downloadButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleLabel.mas_top).with.offset(35);
-        make.left.equalTo(self.mas_left).with.offset(30);
+        make.top.equalTo(self.titleLabel.mas_top).with.offset(35*kHeightScale);
+        make.left.equalTo(self.mas_left).with.offset(30*kWidthScale);
     }];
     
     [self.progressSlider mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.artistLabel.mas_bottom).with.offset(15);
-        make.left.equalTo(self.mas_left).with.offset(50);
-        make.right.equalTo(self.mas_right).with.offset(-50);
-        make.height.equalTo(@30);
+        make.top.equalTo(self.artistLabel.mas_bottom).with.offset(15*kHeightScale);
+        make.left.equalTo(self.mas_left).with.offset(50*kWidthScale);
+        make.right.equalTo(self.mas_right).with.offset(-50*kWidthScale);
+        make.height.equalTo(@(30*kHeightScale));
         
     }];
     
     [self.pasueButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.mas_centerX).with.offset(0);
-        make.bottom.equalTo(self.mas_bottom).with.offset(-20);
+        make.bottom.equalTo(self.mas_bottom).with.offset(-30*kHeightScale);
         
     }];
     
     [self.playStyleButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.pasueButton.mas_centerY).with.offset(0);
-        make.left.equalTo(self.mas_left).with.offset(20);
+        make.left.equalTo(self.mas_left).with.offset(20*kWidthScale);
     }];
     
     [self.previousButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.pasueButton.mas_centerY).with.offset(0);
-        make.right.equalTo(self.pasueButton.mas_left).with.offset(-30);
+        make.right.equalTo(self.pasueButton.mas_left).with.offset(-30*kWidthScale);
     }];
     
     [self.nextButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.pasueButton.mas_centerY).with.offset(0);
-        make.left.equalTo(self.pasueButton.mas_right).with.offset(30);
+        make.left.equalTo(self.pasueButton.mas_right).with.offset(30*kWidthScale);
     }];
     
     [self.shareButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.pasueButton.mas_centerY).with.offset(0);
-        make.right.equalTo(self.mas_right).with.offset(-20);
+        make.right.equalTo(self.mas_right).with.offset(-20*kWidthScale);
     }];
     
 }

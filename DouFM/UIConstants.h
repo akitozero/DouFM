@@ -31,4 +31,9 @@
 #define kBannerLabelHeight 32.0
 #define kNewEntityCellPadding 11.0
 
+//scale
+
+#define kHeightScale (kScreenHeight / 568)
+#define kWidthScale (kScreenWidth / 320)
+
 #endif /* UIConstants_h */

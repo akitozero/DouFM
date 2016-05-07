@@ -54,28 +54,28 @@
     [self.numberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(superView.mas_top).with.offset(0);
         make.left.equalTo(superView.mas_left).with.offset(0);
-        make.width.equalTo(@40);
+        make.width.equalTo(@(40*kWidthScale));
         make.bottom.equalTo(superView.mas_bottom).with.offset(0);
     }];
     
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(superView.mas_top).with.offset(10);
+        make.top.equalTo(superView.mas_top).with.offset(10*kHeightScale);
         make.left.equalTo(self.numberLabel.mas_right).with.offset(0);
         make.right.equalTo(superView.mas_right).with.offset(0);
-        make.height.equalTo(@20);
+        make.height.equalTo(@(20*kHeightScale));
     }];
     
     [self.artistLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleLabel.mas_bottom).with.offset(0);
         make.left.equalTo(self.numberLabel.mas_right).with.offset(0);
         make.right.equalTo(superView.mas_right).with.offset(0);
-        make.bottom.equalTo(superView.mas_bottom).with.offset(-9);
+        make.bottom.equalTo(superView.mas_bottom).with.offset(-9*kHeightScale);
     }];
     
     [self.playingImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(superView.mas_centerY).with.offset(0);
-        make.right.equalTo(superView.mas_right).with.offset(-10);
-        make.width.equalTo(@20);
+        make.right.equalTo(superView.mas_right).with.offset(-10*kWidthScale);
+        make.width.equalTo(@(20*kWidthScale));
         
     }];
 }
