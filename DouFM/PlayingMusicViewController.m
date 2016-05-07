@@ -59,13 +59,14 @@ static void *kDurationKVOKey = &kDurationKVOKey;
     self.playingMusicView = [[PlayingMusicView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:self.playingMusicView];
     [self configureClickEvent];
+    [self configureDatas];
+    [self _resetStreamer];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self configureDatas];
-    [self _resetStreamer];
+    
     
     _timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(_timerAction:) userInfo:nil repeats:YES];
     
@@ -212,7 +213,6 @@ static void *kDurationKVOKey = &kDurationKVOKey;
     
     [_playingMusicView.backgroundImageView sd_setImageWithURL:musicEntity.cover placeholderImage:[UIImage imageNamed:@"music_placeholder"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         if(![_visualEffectView isDescendantOfView:_playingMusicView.backgroundView]) {
-            NSLog(@"-----------------------");
             UIVisualEffect *blurEffect;
             blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
             _visualEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
@@ -325,9 +325,12 @@ static void *kDurationKVOKey = &kDurationKVOKey;
 
 - (void)setCurrentTrackIndex:(NSInteger)currentTrackIndex {
     NSLog(@"setCurrentTrackIndex-------%lu",(unsigned long)currentTrackIndex);
-    _currentTrackIndex = currentTrackIndex;
-    [self configureDatas];
-    [self.delegate reloadTableView];
+    if (_currentTrackIndex != currentTrackIndex) {
+        _currentTrackIndex = currentTrackIndex;
+        [self configureDatas];
+        [self _resetStreamer];
+        [self.delegate reloadTableView];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
