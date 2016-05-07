@@ -52,7 +52,8 @@ static void *kDurationKVOKey = &kDurationKVOKey;
 - (instancetype)initPrivate {
     self = [super init];
     if (self) {
-        
+        //给一个初始值，防止默认为0，影响后续的判断：第一次进入，点击第0个歌曲后没有播放的icon 
+        _currentTrackIndex = -1;
     }
     return self;
 }

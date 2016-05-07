@@ -128,11 +128,9 @@
     self.playingMusicViewController = [PlayingMusicViewController sharedInstance];
     self.playingMusicViewController.musicEntityArray = [self.exploreMutableArray copy];
     self.playingMusicViewController.delegate = self;
-    if (self.playingMusicViewController) {
-        if (self.playingMusicViewController.currentTrackIndex != indexPath.row) {
-            self.playingMusicViewController.currentTrackIndex = indexPath.row;
-        }
-    }else{
+    
+    //再次进入歌曲时，继续播放，而不是不从第0秒重新开始
+    if (self.playingMusicViewController.currentTrackIndex != indexPath.row) {
         self.playingMusicViewController.currentTrackIndex = indexPath.row;
     }
     
