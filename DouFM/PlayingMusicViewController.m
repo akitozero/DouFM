@@ -16,6 +16,13 @@
 #import <DOUAudioVisualizer.h>
 #import <FMDB.h>
 
+//设置歌曲播放顺序：顺序，单曲，随机
+typedef NS_ENUM(NSUInteger, playStyle) {
+    PSCStyleInOrder,
+    PSCStyleSingleCycle,
+    PSCStyleRandom,
+};
+
 static void *kStatusKVOKey = &kStatusKVOKey;
 static void *kDurationKVOKey = &kDurationKVOKey;
 
@@ -150,7 +157,12 @@ static void *kDurationKVOKey = &kDurationKVOKey;
             
         case DOUAudioStreamerFinished:
             NSLog(@"DOUAudioStreamerFinished");
-            [self.playingMusicView.nextButton sendActionsForControlEvents:UIControlEventTouchUpInside];
+            if (self.playStyle == PSCStyleSingleCycle) {
+                [self actionSingleCycle];
+            }else {
+                [self.playingMusicView.nextButton sendActionsForControlEvents:UIControlEventTouchUpInside];
+            }
+            
             break;
             
         case DOUAudioStreamerBuffering:
@@ -227,6 +239,21 @@ static void *kDurationKVOKey = &kDurationKVOKey;
         [self.playingMusicView.backgroundImageView.layer addAnimation:transition forKey:nil];
     }];
     
+    switch (self.playStyle) {
+        case PSCStyleInOrder:
+            [_playingMusicView.playStyleButton setImage:[UIImage imageNamed:@"loop_all_icon"] forState:UIControlStateNormal];
+            break;
+        case PSCStyleSingleCycle:
+            [_playingMusicView.playStyleButton setImage:[UIImage imageNamed:@"loop_single_icon"] forState:UIControlStateNormal];
+            break;
+        case PSCStyleRandom:
+            [_playingMusicView.playStyleButton setImage:[UIImage imageNamed:@"shuffle_icon"] forState:UIControlStateNormal];
+            break;
+        default:
+            break;
+    }
+    
+    
     NSInteger preEntityIndex = _currentTrackIndex <= 0 ? self.musicEntityArray.count - 1 : _currentTrackIndex - 1;
     NSInteger nextEntityIndex = _currentTrackIndex >= self.musicEntityArray.count - 1 ? 0 :_currentTrackIndex + 1;
     MusicEntity *preEntity = [self.musicEntityArray objectAtIndex:preEntityIndex];
@@ -278,16 +305,38 @@ static void *kDurationKVOKey = &kDurationKVOKey;
 
 - (void)actionPlayStyle:(id)sender {
     NSLog(@"playStyleButtonClicked");
+    switch (self.playStyle) {
+        case PSCStyleInOrder:
+            self.playStyle = PSCStyleSingleCycle;
+            [[NSUserDefaults standardUserDefaults] setInteger:PSCStyleSingleCycle forKey:@"playStyle"];
+            [self.playingMusicView.playStyleButton setImage:[UIImage imageNamed:@"loop_single_icon"] forState:UIControlStateNormal];
+            break;
+        case PSCStyleSingleCycle:
+            self.playStyle = PSCStyleRandom;
+            [[NSUserDefaults standardUserDefaults] setInteger:PSCStyleRandom forKey:@"playStyle"];
+            [self.playingMusicView.playStyleButton setImage:[UIImage imageNamed:@"shuffle_icon"] forState:UIControlStateNormal];
+            break;
+        case PSCStyleRandom:
+            self.playStyle = PSCStyleInOrder;
+            [[NSUserDefaults standardUserDefaults] setInteger:PSCStyleInOrder forKey:@"playStyle"];
+            [self.playingMusicView.playStyleButton setImage:[UIImage imageNamed:@"loop_all_icon"] forState:UIControlStateNormal];
+            break;
+        default:
+            break;
+    }
 }
 
 - (void)actionPrevious:(id)sender {
     NSLog(@"previousButtonClicked");
-    if (_currentTrackIndex <= [@0 integerValue]) {
-        self.currentTrackIndex = [self.musicEntityArray count] - 1;
+    if (self.playStyle == PSCStyleInOrder || self.playStyle == PSCStyleSingleCycle) {
+        if (_currentTrackIndex <= [@0 integerValue]) {
+            self.currentTrackIndex = [self.musicEntityArray count] - 1;
+        }else{
+            self.currentTrackIndex--;
+        }
     }else{
-        self.currentTrackIndex--;
+        self.currentTrackIndex = (_currentTrackIndex + [self getRandomDigital])%[self.musicEntityArray count];
     }
-    [self _resetStreamer];
 }
 
 - (void)actionPasue:(id)sender {
@@ -303,15 +352,13 @@ static void *kDurationKVOKey = &kDurationKVOKey;
     }
 }
 
+- (void)actionSingleCycle {
+    self.currentTrackIndex = _currentTrackIndex;
+}
+
 - (void)actionNext:(id)sender {
     NSLog(@"nextButtonClicked");
-    if (_currentTrackIndex >= [self.musicEntityArray count]-1) {
-        self.currentTrackIndex = 0;
-    }else {
-        self.currentTrackIndex++;
-    }
-    
-    [self _resetStreamer];
+    self.currentTrackIndex = (_currentTrackIndex + [self getRandomDigital])%[self.musicEntityArray count];
 }
 
 - (void)actionShare:(id)sender {
@@ -325,12 +372,35 @@ static void *kDurationKVOKey = &kDurationKVOKey;
 
 - (void)setCurrentTrackIndex:(NSInteger)currentTrackIndex {
     NSLog(@"setCurrentTrackIndex-------%lu",(unsigned long)currentTrackIndex);
-    if (_currentTrackIndex != currentTrackIndex) {
-        _currentTrackIndex = currentTrackIndex;
-        [self configureDatas];
-        [self _resetStreamer];
-        [self.delegate reloadTableView];
+    _currentTrackIndex = currentTrackIndex;
+    [self configureDatas];
+    [self _resetStreamer];
+    [self.delegate reloadTableView];
+    
+//    if (_currentTrackIndex != currentTrackIndex) {
+//        _currentTrackIndex = currentTrackIndex;
+//        [self configureDatas];
+//        [self _resetStreamer];
+//        [self.delegate reloadTableView];
+//    }
+}
+
+- (NSInteger)getRandomDigital {
+    NSInteger digital = 1;
+    switch (self.playStyle) {
+        case PSCStyleInOrder:
+            digital =  1;
+            break;
+        case PSCStyleSingleCycle:
+            digital =  1;
+            break;
+        case PSCStyleRandom:
+            digital =  arc4random()%self.musicEntityArray.count;
+            break;
+        default:
+            break;
     }
+    return digital;
 }
 
 - (void)didReceiveMemoryWarning {

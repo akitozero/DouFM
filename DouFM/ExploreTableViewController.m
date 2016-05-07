@@ -128,7 +128,15 @@
     self.playingMusicViewController = [PlayingMusicViewController sharedInstance];
     self.playingMusicViewController.musicEntityArray = [self.exploreMutableArray copy];
     self.playingMusicViewController.delegate = self;
-    self.playingMusicViewController.currentTrackIndex = indexPath.row;
+    if (self.playingMusicViewController) {
+        if (self.playingMusicViewController.currentTrackIndex != indexPath.row) {
+            self.playingMusicViewController.currentTrackIndex = indexPath.row;
+        }
+    }else{
+        self.playingMusicViewController.currentTrackIndex = indexPath.row;
+    }
+    
+    self.playingMusicViewController.playStyle = (NSInteger)[[NSUserDefaults standardUserDefaults] integerForKey:@"playStyle"];
     [self.playingMusicViewController setHidesBottomBarWhenPushed:YES];
     [self.navigationController pushViewController:self.playingMusicViewController animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

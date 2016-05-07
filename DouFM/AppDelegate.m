@@ -14,6 +14,13 @@
 
 @interface AppDelegate ()
 
+//设置歌曲播放顺序：顺序，单曲，随机
+typedef NS_ENUM(NSUInteger, playStyle) {
+    PSCStyleInOrder,
+    PSCStyleSingleCycle,
+    PSCStyleRandom,
+};
+
 @property (strong, nonatomic) UITabBarController *tabBarController;
 
 @end
@@ -35,6 +42,9 @@
         [database open];
         [database executeUpdate:@"CREATE TABLE favorite (id INTEGER PRIMARY KEY DEFAULT NULL,key TEXT DEFAULT NULL,title TEXT DEFAULT NULL,artist TEXT DEFAULT NULL,album TEXT DEFAULT NULL,company TEXT DEFAULT NULL,coverURL TEXT DEFAULT NULL,publicTime TEXT DEFAULT NULL,audioFileURL TEXT DEFAULT NULL)"];
         [database close];
+        
+        //设置歌曲播放顺序：顺序，单曲，随机
+        [[NSUserDefaults standardUserDefaults] setInteger:PSCStyleInOrder forKey:@"playStyle"];
     }
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];

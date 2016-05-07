@@ -23,6 +23,7 @@
 @property (copy, nonatomic) NSArray *musicEntityArray;
 @property (assign, nonatomic) NSInteger currentTrackIndex;
 @property (strong, nonatomic) PlayingMusicView *playingMusicView;
+@property (assign, nonatomic) NSInteger playStyle;
 @property (weak, nonatomic) id<CurrentPlayingIndexDelegate> delegate;
 
 + (instancetype)sharedInstance;
