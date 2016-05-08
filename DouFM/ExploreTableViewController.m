@@ -14,11 +14,13 @@
 #import <AFNetworking/AFNetworking.h>
 #import <FMDB.h>
 #import <MJRefresh.h>
+#import <SVProgressHUD.h>
 
 @interface ExploreTableViewController ()
 
 @property (strong, nonatomic) NSMutableArray *exploreMutableArray;
 
+@property (assign, nonatomic) BOOL isRefreshed;
 
 @end
 
@@ -27,6 +29,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.exploreMutableArray = [[NSMutableArray alloc] init];
+    self.isRefreshed = NO;
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self refreshTableView];
     }];
@@ -38,6 +41,7 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     [manager.requestSerializer setTimeoutInterval:5];
     [manager GET:@"http://doufm.info/api/playlist/52f8ca1d1d41c851663fcba7/?num=10" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        self.isRefreshed = YES;
         [self.exploreMutableArray removeAllObjects];
         NSArray *responseArray = (NSArray *)responseObject;
         [responseArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -58,9 +62,11 @@
         }];
         [self.tableView.mj_header endRefreshing];
         [self.tableView reloadData];
+//        [SVProgressHUD showSuccessWithStatus:@"刷新成功"];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
         [self.tableView.mj_header endRefreshing];
+        [SVProgressHUD showErrorWithStatus:@"刷新失败"];
     }];
 }
 
@@ -123,7 +129,7 @@
     musicListCell.artistLabel.text = musicEntity.artist;
    
     if (self.playingMusicViewController) {
-        if (self.playingMusicViewController.currentTrackIndex == indexPath.row && self.playingMusicViewController.fromTabbarItem == PSCItemExplore) {
+        if (self.playingMusicViewController.currentTrackIndex == indexPath.row && self.playingMusicViewController.fromTabbarItem == PSCItemExplore && self.isRefreshed == NO) {
             musicListCell.playingImageView.hidden = NO;
         }else{
             musicListCell.playingImageView.hidden = YES;
@@ -131,7 +137,6 @@
     }else{
         musicListCell.playingImageView.hidden = YES;
     }
-
     return musicListCell;
 }
 
@@ -140,9 +145,10 @@
     self.playingMusicViewController.musicEntityArray = [self.exploreMutableArray copy];
 //    self.playingMusicViewController.fromTabbarItem = PSCItemExplore;
     //再次进入歌曲时，继续播放，而不是不从第0秒重新开始
-    if (self.playingMusicViewController.currentTrackIndex != indexPath.row || self.playingMusicViewController.fromTabbarItem != PSCItemExplore) {
+    if (self.playingMusicViewController.currentTrackIndex != indexPath.row || self.playingMusicViewController.fromTabbarItem != PSCItemExplore || self.isRefreshed == YES) {
         self.playingMusicViewController.currentTrackIndex = indexPath.row;
         self.playingMusicViewController.fromTabbarItem = PSCItemExplore;
+        self.isRefreshed = NO;
     }
     
     self.playingMusicViewController.playStyle = (NSInteger)[[NSUserDefaults standardUserDefaults] integerForKey:@"playStyle"];
