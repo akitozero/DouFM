@@ -14,7 +14,7 @@
 #import <AFNetworking/AFNetworking.h>
 #import <FMDB.h>
 
-@interface ExploreTableViewController () <CurrentPlayingIndexDelegate>
+@interface ExploreTableViewController ()
 
 @property (strong, nonatomic) NSMutableArray *exploreMutableArray;
 
@@ -54,6 +54,7 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
     }];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:@"reloadExploreTableView" object:nil];
 }
 
 //- (void)viewWillAppear:(BOOL)animated {
@@ -66,7 +67,6 @@
     NSArray *docPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDir = [docPaths objectAtIndex:0];
     NSString *dbPath = [documentsDir   stringByAppendingPathComponent:@"DouFM.sqlite"];
-//    NSLog(@"%@+++++++",dbPath);
     FMDatabase *database = [FMDatabase databaseWithPath:dbPath];
     [database open];
     FMResultSet *result = [database executeQuery:@"select * from favorite where key = ?",key];
@@ -98,7 +98,6 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    NSLog(@"%ld+++++++%ld",(long)indexPath.section,(long)indexPath.row);
     MusicListCell *musicListCell = (MusicListCell *)[tableView dequeueReusableCellWithIdentifier:@"MusicListCell"];
     if (!musicListCell) {
         musicListCell = [[MusicListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"MusicListCell"];
@@ -112,7 +111,7 @@
     musicListCell.artistLabel.text = musicEntity.artist;
    
     if (self.playingMusicViewController) {
-        if (self.playingMusicViewController.currentTrackIndex == indexPath.row) {
+        if (self.playingMusicViewController.currentTrackIndex == indexPath.row && self.playingMusicViewController.fromTabbarItem == PSCItemExplore) {
             musicListCell.playingImageView.hidden = NO;
         }else{
             musicListCell.playingImageView.hidden = YES;
@@ -120,18 +119,18 @@
     }else{
         musicListCell.playingImageView.hidden = YES;
     }
-    
+
     return musicListCell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     self.playingMusicViewController = [PlayingMusicViewController sharedInstance];
     self.playingMusicViewController.musicEntityArray = [self.exploreMutableArray copy];
-    self.playingMusicViewController.delegate = self;
-    
+//    self.playingMusicViewController.fromTabbarItem = PSCItemExplore;
     //再次进入歌曲时，继续播放，而不是不从第0秒重新开始
-    if (self.playingMusicViewController.currentTrackIndex != indexPath.row) {
+    if (self.playingMusicViewController.currentTrackIndex != indexPath.row || self.playingMusicViewController.fromTabbarItem != PSCItemExplore) {
         self.playingMusicViewController.currentTrackIndex = indexPath.row;
+        self.playingMusicViewController.fromTabbarItem = PSCItemExplore;
     }
     
     self.playingMusicViewController.playStyle = (NSInteger)[[NSUserDefaults standardUserDefaults] integerForKey:@"playStyle"];
@@ -147,5 +146,8 @@
     [self.tableView reloadData];
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"reloadExploreTableView" object:nil];
+}
 
 @end

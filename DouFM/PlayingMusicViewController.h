@@ -10,21 +10,13 @@
 @class MusicEntity;
 @class PlayingMusicView;
 
-@protocol CurrentPlayingIndexDelegate <NSObject>
-
-//- (void)addPlayingImageForCellAt:(NSUInteger)index;
-- (void)reloadTableView;
-
-@end
-
-
 @interface PlayingMusicViewController : UIViewController
 
 @property (copy, nonatomic) NSArray *musicEntityArray;
 @property (assign, nonatomic) NSInteger currentTrackIndex;
 @property (strong, nonatomic) PlayingMusicView *playingMusicView;
 @property (assign, nonatomic) NSInteger playStyle;
-@property (weak, nonatomic) id<CurrentPlayingIndexDelegate> delegate;
+@property (assign, nonatomic) NSInteger fromTabbarItem;
 
 + (instancetype)sharedInstance;
 

@@ -9,6 +9,19 @@
 #import <Foundation/Foundation.h>
 #import <DOUAudioFile.h>
 
+//设置歌曲播放顺序：顺序，单曲，随机
+typedef NS_ENUM(NSUInteger, playStyle) {
+    PSCStyleInOrder,
+    PSCStyleSingleCycle,
+    PSCStyleRandom,
+};
+
+typedef NS_ENUM(NSInteger, fromTabbarItem) {
+    PSCItemExplore,
+    PSCItemRecommand,
+    PSCItemFavorite,
+};
+
 @interface MusicEntity : NSObject <DOUAudioFile>
 
 @property (strong, nonatomic) NSString *album;

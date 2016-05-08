@@ -8,18 +8,12 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
+#import "MusicEntity.h"
 #import "ExploreTableViewController.h"
 #import "MyMusicTableViewController.h"
 #import <FMDB.h>
 
 @interface AppDelegate ()
-
-//设置歌曲播放顺序：顺序，单曲，随机
-typedef NS_ENUM(NSUInteger, playStyle) {
-    PSCStyleInOrder,
-    PSCStyleSingleCycle,
-    PSCStyleRandom,
-};
 
 @property (strong, nonatomic) UITabBarController *tabBarController;
 

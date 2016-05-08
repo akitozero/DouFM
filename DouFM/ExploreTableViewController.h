@@ -10,6 +10,7 @@
 @class PlayingMusicViewController;
 
 
+
 @interface ExploreTableViewController : UITableViewController
 
 @property (strong, nonatomic) PlayingMusicViewController *playingMusicViewController;

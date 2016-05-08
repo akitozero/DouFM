@@ -16,13 +16,6 @@
 #import <DOUAudioVisualizer.h>
 #import <FMDB.h>
 
-//设置歌曲播放顺序：顺序，单曲，随机
-typedef NS_ENUM(NSUInteger, playStyle) {
-    PSCStyleInOrder,
-    PSCStyleSingleCycle,
-    PSCStyleRandom,
-};
-
 static void *kStatusKVOKey = &kStatusKVOKey;
 static void *kDurationKVOKey = &kDurationKVOKey;
 
@@ -54,6 +47,7 @@ static void *kDurationKVOKey = &kDurationKVOKey;
     if (self) {
         //给一个初始值，防止默认为0，影响后续的判断：第一次进入，点击第0个歌曲后没有播放的icon 
         _currentTrackIndex = -1;
+        _fromTabbarItem = -1;
     }
     return self;
 }
@@ -376,14 +370,9 @@ static void *kDurationKVOKey = &kDurationKVOKey;
     _currentTrackIndex = currentTrackIndex;
     [self configureDatas];
     [self _resetStreamer];
-    [self.delegate reloadTableView];
-    
-//    if (_currentTrackIndex != currentTrackIndex) {
-//        _currentTrackIndex = currentTrackIndex;
-//        [self configureDatas];
-//        [self _resetStreamer];
-//        [self.delegate reloadTableView];
-//    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadExploreTableView" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadMyMusicTableView" object:nil];
+//    [NSNotificationCenter]
 }
 
 - (NSInteger)getRandomDigital {
@@ -408,6 +397,7 @@ static void *kDurationKVOKey = &kDurationKVOKey;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 @end
 

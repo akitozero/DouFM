@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+@class PlayingMusicViewController;
 
 @interface MyMusicTableViewController : UITableViewController
+
+@property (strong, nonatomic) PlayingMusicViewController *playingMusicViewController;
 
 @end
