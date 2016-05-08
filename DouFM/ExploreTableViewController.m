@@ -13,6 +13,7 @@
 #import <YYModel.h>
 #import <AFNetworking/AFNetworking.h>
 #import <FMDB.h>
+#import <MJRefresh.h>
 
 @interface ExploreTableViewController ()
 
@@ -26,16 +27,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.exploreMutableArray = [[NSMutableArray alloc] init];
-      
-    
-#pragma mark - get data from server
-    
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self refreshTableView];
+    }];
+    [self.tableView.mj_header beginRefreshing];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:@"reloadExploreTableView" object:nil];
+}
+
+- (void)refreshTableView {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     [manager GET:@"http://doufm.info/api/playlist/52f8ca1d1d41c851663fcba7/?num=10" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self.exploreMutableArray removeAllObjects];
         NSArray *responseArray = (NSArray *)responseObject;
         [responseArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             NSDictionary *dict = obj;
-//            NSLog(@"dict----%@",dict);
+            //            NSLog(@"dict----%@",dict);
             MusicEntity *musicEntity = [[MusicEntity alloc] init];
             musicEntity.album = [dict objectForKey:@"album"];
             musicEntity.artist = [dict objectForKey:@"artist"];
@@ -47,20 +53,26 @@
             musicEntity.title = [dict objectForKey:@"title"];
             musicEntity.isFavorite = [self checkIsFavorite:musicEntity.key];
             
-//            NSLog(@"%@",musicEntity.audioFileURL);
             [self.exploreMutableArray addObject:musicEntity];
         }];
+        [self.tableView.mj_header endRefreshing];
         [self.tableView reloadData];
+        
+        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
     }];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:@"reloadExploreTableView" object:nil];
 }
 
-//- (void)viewWillAppear:(BOOL)animated {
-//    [super viewWillAppear:animated];
-//    self.tableView
-//}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    NSLog(@"ExploreTableViewController+++++++++++++++++++");
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    NSLog(@"ExploreTableViewController-------------------");
+}
 
 - (BOOL)checkIsFavorite:(NSString *)key{
     BOOL flag = NO;

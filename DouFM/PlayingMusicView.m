@@ -15,8 +15,6 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
-//        NSLog(@"=============================");
-//        NSLog(@"%f-------%f", kWidthScale, kHeightScale);
         [self configureSubviews];
     }
     return self;

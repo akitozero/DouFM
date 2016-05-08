@@ -78,7 +78,7 @@
 //    [UINavigationBar appearance].barTintColor = HEXCOLOR(0xdf3031);
     [UINavigationBar appearance].titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
     [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"themeColor"] forBarMetrics: UIBarMetricsDefault];
-    [[UINavigationBar appearance] setTranslucent:YES];
+//    [[UINavigationBar appearance] setTranslucent:YES];
     [[UINavigationBar appearance] setShadowImage:[UIImage new]];
 //    self.navigationController.navigationBar.shadowImage = [UIImage new];
 //    self.navigationController.navigationBar.translucent = YES;

@@ -11,6 +11,7 @@
 #import "MusicEntity.h"
 #import "MusicListCell.h"
 #import <FMDB.h>
+#import <MJRefresh.h>
 
 @interface MyMusicTableViewController ()
 
@@ -24,7 +25,17 @@
     [super viewDidLoad];
     
     self.myMusicArray = [[NSMutableArray alloc] init];
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        NSLog(@"shuaxingzhong");
+        [self refreshTableView];
+    }];
+    [self.tableView.mj_header beginRefreshing];
     
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:@"reloadMyMusicTableView" object:nil];
+}
+
+- (void)refreshTableView {
     NSArray *docPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDir = [docPaths objectAtIndex:0];
     NSString *dbPath = [documentsDir   stringByAppendingPathComponent:@"DouFM.sqlite"];
@@ -32,7 +43,7 @@
     [database open];
     
     FMResultSet *result = [database executeQuery:@"select * from favorite"];
-    
+    [self.myMusicArray removeAllObjects];
     while ([result next]) {
         MusicEntity *musicEntity = [[MusicEntity alloc] init];
         musicEntity.album = [result stringForColumn:@"album"];
@@ -47,7 +58,18 @@
         [self.myMusicArray addObject:musicEntity];
     }
     [database close];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:@"reloadMyMusicTableView" object:nil];
+    [self.tableView.mj_header endRefreshing];
+    [self.tableView reloadData];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    NSLog(@"MyMusicTableViewController+++++++++++++++++++");
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    NSLog(@"MyMusicTableViewController-------------------");
 }
 
 - (void)didReceiveMemoryWarning {
