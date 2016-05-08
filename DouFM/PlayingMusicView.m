@@ -29,7 +29,7 @@
     self.backgroundImageView = [[UIImageView alloc] init];
     self.coverImageView = [[UIImageView alloc] init];
     self.isLikeButton = [[UIButton alloc] init];
-    self.downloadButton = [[UIButton alloc] init];
+//    self.downloadButton = [[UIButton alloc] init];
     self.playStyleButton = [[UIButton alloc] init];
     self.previousButton = [[UIButton alloc] init];
     self.pasueButton = [[UIButton alloc] init];
@@ -46,7 +46,7 @@
     [self.backgroundView addSubview:self.backgroundImageView];
     [self addSubview:self.coverImageView];
     [self addSubview:self.isLikeButton];
-    [self addSubview:self.downloadButton];
+//    [self addSubview:self.downloadButton];
     [self addSubview:self.playStyleButton];
     [self addSubview:self.previousButton];
     [self addSubview:self.pasueButton];
@@ -73,7 +73,7 @@
     
 //    [self.isLikeButton setImage:[UIImage imageNamed:@"empty_heart"] forState:UIControlStateNormal];
     
-    [self.downloadButton setImage:[UIImage imageNamed:@"download"] forState:UIControlStateNormal];
+//    [self.downloadButton setImage:[UIImage imageNamed:@"download"] forState:UIControlStateNormal];
     
     [self.titleLabel setTextAlignment:NSTextAlignmentCenter];
 //    [self.titleLabel setText:self.musicEntity.title];
@@ -146,10 +146,10 @@
         make.right.equalTo(self.mas_right).with.offset(-30*kWidthScale);
     }];
     
-    [self.downloadButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleLabel.mas_top).with.offset(35*kHeightScale);
-        make.left.equalTo(self.mas_left).with.offset(30*kWidthScale);
-    }];
+//    [self.downloadButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.titleLabel.mas_top).with.offset(35*kHeightScale);
+//        make.left.equalTo(self.mas_left).with.offset(30*kWidthScale);
+//    }];
     
     [self.progressSlider mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.artistLabel.mas_bottom).with.offset(15*kHeightScale);

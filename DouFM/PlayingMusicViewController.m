@@ -259,7 +259,7 @@ static void *kDurationKVOKey = &kDurationKVOKey;
 
 - (void)configureClickEvent {
     [self.playingMusicView.isLikeButton addTarget:self action:@selector(actionLike:) forControlEvents:UIControlEventTouchUpInside];
-    [self.playingMusicView.downloadButton addTarget:self action:@selector(actionDownload:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.playingMusicView.downloadButton addTarget:self action:@selector(actionDownload:) forControlEvents:UIControlEventTouchUpInside];
     [self.playingMusicView.playStyleButton addTarget:self action:@selector(actionPlayStyle:) forControlEvents:UIControlEventTouchUpInside];
     [self.playingMusicView.previousButton addTarget:self action:@selector(actionPrevious:) forControlEvents:UIControlEventTouchUpInside];
     [self.playingMusicView.pasueButton addTarget:self action:@selector(actionPasue:) forControlEvents:UIControlEventTouchUpInside];
@@ -294,9 +294,9 @@ static void *kDurationKVOKey = &kDurationKVOKey;
     [database close];
 }
 
-- (void)actionDownload:(id)sender {
-    NSLog(@"downloadButtonClicked");
-}
+//- (void)actionDownload:(id)sender {
+//    NSLog(@"downloadButtonClicked");
+//}
 
 - (void)actionPlayStyle:(id)sender {
     NSLog(@"playStyleButtonClicked");

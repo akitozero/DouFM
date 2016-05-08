@@ -15,7 +15,7 @@
 @property (strong, nonatomic) UIImageView *backgroundImageView;
 //@property (strong, nonatomic) UIVisualEffectView *visualEffectView;
 @property (strong, nonatomic) UIButton *isLikeButton;
-@property (strong, nonatomic) UIButton *downloadButton;
+//@property (strong, nonatomic) UIButton *downloadButton;
 @property (strong, nonatomic) UIButton *playStyleButton;
 @property (strong, nonatomic) UIButton *previousButton;
 @property (strong, nonatomic) UIButton *pasueButton;
