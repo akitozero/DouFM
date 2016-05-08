@@ -36,6 +36,7 @@
 
 - (void)refreshTableView {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [manager.requestSerializer setTimeoutInterval:5];
     [manager GET:@"http://doufm.info/api/playlist/52f8ca1d1d41c851663fcba7/?num=10" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self.exploreMutableArray removeAllObjects];
         NSArray *responseArray = (NSArray *)responseObject;
@@ -57,10 +58,9 @@
         }];
         [self.tableView.mj_header endRefreshing];
         [self.tableView reloadData];
-        
-        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
+        [self.tableView.mj_header endRefreshing];
     }];
 }
 
