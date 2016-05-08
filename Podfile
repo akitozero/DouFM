@@ -11,5 +11,6 @@ pod 'SDWebImage', '~> 3.7'
 pod 'DOUAudioStreamer'
 pod 'FMDB', '~> 2.6'
 pod 'MJRefresh'
+pod 'SVProgressHUD'
 
 end

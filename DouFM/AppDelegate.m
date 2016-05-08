@@ -12,6 +12,7 @@
 #import "ExploreTableViewController.h"
 #import "MyMusicTableViewController.h"
 #import <FMDB.h>
+#import <SVProgressHUD.h>
 
 @interface AppDelegate ()
 
@@ -82,6 +83,10 @@
     [[UINavigationBar appearance] setShadowImage:[UIImage new]];
 //    self.navigationController.navigationBar.shadowImage = [UIImage new];
 //    self.navigationController.navigationBar.translucent = YES;
+    
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
+    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
+    [SVProgressHUD setMinimumDismissTimeInterval:1];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
