@@ -19,6 +19,11 @@
 		A65D25761CD4C10200218B59 /* ExploreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A65D25751CD4C10200218B59 /* ExploreTableViewController.m */; };
 		A69F856E1CD5047C00BEEEFD /* MusicEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = A69F856D1CD5047C00BEEEFD /* MusicEntity.m */; };
 		A69F85711CD5184A00BEEEFD /* PlayingMusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A69F85701CD5184A00BEEEFD /* PlayingMusicViewController.m */; };
+		A6EBE83B1CE03CB400BE4FFA /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6EBE83A1CE03CB400BE4FFA /* MenuViewController.m */; };
+		A6EBE83E1CE03CD500BE4FFA /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6EBE83D1CE03CD500BE4FFA /* RootViewController.m */; };
+		A6EBE8411CE03E7800BE4FFA /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6EBE8401CE03E7800BE4FFA /* TabBarViewController.m */; };
+		A6EBE8441CE07D5A00BE4FFA /* MenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A6EBE8431CE07D5A00BE4FFA /* MenuCell.m */; };
+		A6EBE8461CE08A5F00BE4FFA /* playlist.plist in Resources */ = {isa = PBXBuildFile; fileRef = A6EBE8451CE08A5F00BE4FFA /* playlist.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +51,15 @@
 		A69F856D1CD5047C00BEEEFD /* MusicEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicEntity.m; sourceTree = "<group>"; };
 		A69F856F1CD5184A00BEEEFD /* PlayingMusicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayingMusicViewController.h; sourceTree = "<group>"; };
 		A69F85701CD5184A00BEEEFD /* PlayingMusicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayingMusicViewController.m; sourceTree = "<group>"; };
+		A6EBE8391CE03CB400BE4FFA /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
+		A6EBE83A1CE03CB400BE4FFA /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
+		A6EBE83C1CE03CD500BE4FFA /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		A6EBE83D1CE03CD500BE4FFA /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		A6EBE83F1CE03E7800BE4FFA /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarViewController.h; sourceTree = "<group>"; };
+		A6EBE8401CE03E7800BE4FFA /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarViewController.m; sourceTree = "<group>"; };
+		A6EBE8421CE07D5A00BE4FFA /* MenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuCell.h; sourceTree = "<group>"; };
+		A6EBE8431CE07D5A00BE4FFA /* MenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuCell.m; sourceTree = "<group>"; };
+		A6EBE8451CE08A5F00BE4FFA /* playlist.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = playlist.plist; sourceTree = "<group>"; };
 		C585ABD58F6DC5353B625EE6 /* Pods-DouFM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DouFM.release.xcconfig"; path = "Pods/Target Support Files/Pods-DouFM/Pods-DouFM.release.xcconfig"; sourceTree = "<group>"; };
 		DA0619D4D6BA89BD9385E799 /* Pods-DouFM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DouFM.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DouFM/Pods-DouFM.debug.xcconfig"; sourceTree = "<group>"; };
 		EC8071754791A70F85209BDA /* libPods-DouFM.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DouFM.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,7 +125,6 @@
 				A65D253D1CD34C3800218B59 /* ViewController.m */,
 				A65D25421CD34C3800218B59 /* Assets.xcassets */,
 				A65D25441CD34C3800218B59 /* LaunchScreen.storyboard */,
-				A65D25471CD34C3800218B59 /* Info.plist */,
 				A65D25361CD34C3800218B59 /* Supporting Files */,
 				A65D25531CD36E5600218B59 /* DouFM.pch */,
 			);
@@ -121,6 +134,8 @@
 		A65D25361CD34C3800218B59 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A65D25471CD34C3800218B59 /* Info.plist */,
+				A6EBE8451CE08A5F00BE4FFA /* playlist.plist */,
 				A65D25371CD34C3800218B59 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -147,6 +162,12 @@
 		A65D255F1CD38CA500218B59 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				A6EBE83C1CE03CD500BE4FFA /* RootViewController.h */,
+				A6EBE83D1CE03CD500BE4FFA /* RootViewController.m */,
+				A6EBE8391CE03CB400BE4FFA /* MenuViewController.h */,
+				A6EBE83A1CE03CB400BE4FFA /* MenuViewController.m */,
+				A6EBE83F1CE03E7800BE4FFA /* TabBarViewController.h */,
+				A6EBE8401CE03E7800BE4FFA /* TabBarViewController.m */,
 				A65D25741CD4C10200218B59 /* ExploreTableViewController.h */,
 				A65D25751CD4C10200218B59 /* ExploreTableViewController.m */,
 				A65D25711CD4C0E700218B59 /* MyMusicTableViewController.h */,
@@ -164,6 +185,8 @@
 				A65D25661CD392FC00218B59 /* MusicListCell.m */,
 				A6221B7A1CD77AEA003DE8C0 /* PlayingMusicView.h */,
 				A6221B7B1CD77AEA003DE8C0 /* PlayingMusicView.m */,
+				A6EBE8421CE07D5A00BE4FFA /* MenuCell.h */,
+				A6EBE8431CE07D5A00BE4FFA /* MenuCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -229,6 +252,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6EBE8461CE08A5F00BE4FFA /* playlist.plist in Resources */,
 				A65D25461CD34C3800218B59 /* LaunchScreen.storyboard in Resources */,
 				A65D25431CD34C3800218B59 /* Assets.xcassets in Resources */,
 			);
@@ -293,11 +317,15 @@
 				A65D25731CD4C0E700218B59 /* MyMusicTableViewController.m in Sources */,
 				A65D253E1CD34C3800218B59 /* ViewController.m in Sources */,
 				A65D25681CD392FC00218B59 /* MusicListCell.m in Sources */,
+				A6EBE8411CE03E7800BE4FFA /* TabBarViewController.m in Sources */,
 				A69F85711CD5184A00BEEEFD /* PlayingMusicViewController.m in Sources */,
 				A69F856E1CD5047C00BEEEFD /* MusicEntity.m in Sources */,
 				A65D25761CD4C10200218B59 /* ExploreTableViewController.m in Sources */,
+				A6EBE8441CE07D5A00BE4FFA /* MenuCell.m in Sources */,
+				A6EBE83E1CE03CD500BE4FFA /* RootViewController.m in Sources */,
 				A65D253B1CD34C3800218B59 /* AppDelegate.m in Sources */,
 				A65D25381CD34C3800218B59 /* main.m in Sources */,
+				A6EBE83B1CE03CB400BE4FFA /* MenuViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

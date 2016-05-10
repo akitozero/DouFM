@@ -19,11 +19,12 @@
 static void *kStatusKVOKey = &kStatusKVOKey;
 static void *kDurationKVOKey = &kDurationKVOKey;
 
-@interface PlayingMusicViewController ()
+@interface PlayingMusicViewController ()<UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) DOUAudioStreamer *streamer;
 @property (strong, nonatomic) UIVisualEffectView *visualEffectView;
+@property (strong, nonatomic) UIPanGestureRecognizer *panGestureRecognizer;
 
 @end
 
@@ -60,6 +61,8 @@ static void *kDurationKVOKey = &kDurationKVOKey;
     
     self.playingMusicView = [[PlayingMusicView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:self.playingMusicView];
+    self.panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGestureRecognizer)];
+    [self.view addGestureRecognizer:self.panGestureRecognizer];
     [self configureClickEvent];
     [self configureDatas];
     [self _resetStreamer];
@@ -68,7 +71,7 @@ static void *kDurationKVOKey = &kDurationKVOKey;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    self.panGestureRecognizer.delegate = self;
     
     _timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(_timerAction:) userInfo:nil repeats:YES];
     
@@ -391,6 +394,10 @@ static void *kDurationKVOKey = &kDurationKVOKey;
             break;
     }
     return digital;
+}
+
+- (void)handlePanGestureRecognizer {
+    NSLog(@"handlePanGestureRecognizer");
 }
 
 - (void)didReceiveMemoryWarning {

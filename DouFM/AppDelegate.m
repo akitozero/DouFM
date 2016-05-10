@@ -9,14 +9,15 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 #import "MusicEntity.h"
-#import "ExploreTableViewController.h"
-#import "MyMusicTableViewController.h"
+#import "RootViewController.h"
+#import "TabBarViewController.h"
 #import <FMDB.h>
 #import <SVProgressHUD.h>
+#import <AFNetworking.h>
 
 @interface AppDelegate ()
 
-@property (strong, nonatomic) UITabBarController *tabBarController;
+//@property (strong, nonatomic) UITabBarController *tabBarController;
 
 @end
 
@@ -44,32 +45,12 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
 //    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    [self setupTabBarController];
     [self customAppearance];
-    self.window.rootViewController = self.tabBarController;
+    self.window.rootViewController = [[RootViewController alloc] init];
     [self.window makeKeyAndVisible];
     return YES;
 }
 
-- (void)setupTabBarController {
-    ExploreTableViewController *exploreViewController = [[ExploreTableViewController alloc] init];
-    exploreViewController.tabBarItem.image = [[UIImage imageNamed:@"icon_tabbar_music"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    exploreViewController.tabBarItem.selectedImage = [[UIImage imageNamed:@"icon_tabbar_music_on"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    exploreViewController.title = @"发现音乐";
-    UINavigationController *exploreNavigationController = [[UINavigationController alloc] initWithRootViewController:exploreViewController];
-    
-    MyMusicTableViewController *myMusicViewController = [[MyMusicTableViewController alloc] init];
-    myMusicViewController.tabBarItem.image = [[UIImage imageNamed:@"icon_tabbar_favorite"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    myMusicViewController.tabBarItem.selectedImage = [[UIImage imageNamed:@"icon_tabbar_favorite_on"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    myMusicViewController.title = @"我的音乐";
-    UINavigationController *myMusicNavigationController = [[UINavigationController alloc] initWithRootViewController:myMusicViewController];
-    
-    
-    self.tabBarController = [[UITabBarController alloc] init];
-    self.tabBarController.tabBar.translucent = NO;
-    self.tabBarController.viewControllers = @[exploreNavigationController,myMusicNavigationController];
-    
-}
 
 - (void)customAppearance {
     [UITabBar appearance].tintColor = HEXCOLOR(0xdf3031);

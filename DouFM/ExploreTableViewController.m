@@ -19,7 +19,7 @@
 @interface ExploreTableViewController ()
 
 @property (strong, nonatomic) NSMutableArray *exploreMutableArray;
-
+@property (strong, nonatomic) NSString *playlist;
 @property (assign, nonatomic) BOOL isRefreshed;
 
 @end
@@ -29,6 +29,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.exploreMutableArray = [[NSMutableArray alloc] init];
+    self.playlist = @"52f8ca1d1d41c851663fcba7";
+    
+    
+    
     self.isRefreshed = NO;
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self refreshTableView];
@@ -38,9 +42,10 @@
 }
 
 - (void)refreshTableView {
+    NSString *playlistURL = [NSString stringWithFormat:@"%@%@/?num=10",APIPlaylist, self.playlist];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     [manager.requestSerializer setTimeoutInterval:5];
-    [manager GET:@"http://doufm.info/api/playlist/52f8ca1d1d41c851663fcba7/?num=10" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager GET:playlistURL parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         self.isRefreshed = YES;
         [self.exploreMutableArray removeAllObjects];
         NSArray *responseArray = (NSArray *)responseObject;
@@ -162,6 +167,22 @@
 
 - (void)reloadTableView {
     [self.tableView reloadData];
+}
+
+
+#pragma mark - change playlist
+
+- (void)changePlaylistTo:(NSIndexPath *)indexPath {
+    NSLog(@"change playlist");
+    //获取playlist.plist文件内信息
+    NSLog(@"%@++++++",self.tabBarController);
+    [self.tabBarController setSelectedIndex:0];
+    [self.delegate closeSideMenu];
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"playlist.plist" ofType:nil];
+    NSMutableArray *data = [[NSMutableArray alloc] initWithContentsOfFile:plistPath];
+    NSDictionary *playlistDictionary = [data objectAtIndex:indexPath.row];
+    self.playlist = [playlistDictionary objectForKey:@"key"];
+    [self.tableView.mj_header beginRefreshing];
 }
 
 - (void)dealloc {
