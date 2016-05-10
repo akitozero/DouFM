@@ -16,12 +16,72 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DouFM" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="unc-LL-T8q">
+                                <rect key="frame" x="-42" y="-21" width="42" height="21"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="60"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchScreenImage.png" translatesAutoresizingMaskIntoConstraints="NO" id="UtQ-OI-Y7P">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="248" id="0nm-w7-lS2"/>
+                                    <constraint firstAttribute="height" constant="138" id="yf7-aW-q3s"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="0nm-w7-lS2"/>
+                                        <exclude reference="yf7-aW-q3s"/>
+                                    </mask>
+                                </variation>
+                                <variation key="widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="0nm-w7-lS2"/>
+                                        <include reference="yf7-aW-q3s"/>
+                                    </mask>
+                                </variation>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="0.45490196078431372" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="UtQ-OI-Y7P" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-100" id="GwM-cz-Jmy"/>
+                            <constraint firstItem="unc-LL-T8q" firstAttribute="top" secondItem="UtQ-OI-Y7P" secondAttribute="bottom" constant="50" id="fBX-VW-0AF"/>
+                            <constraint firstItem="unc-LL-T8q" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="kac-Sa-kbv"/>
+                            <constraint firstItem="UtQ-OI-Y7P" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="kzc-uN-kCF"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="unc-LL-T8q"/>
+                                <exclude reference="UtQ-OI-Y7P"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="GwM-cz-Jmy"/>
+                                <exclude reference="kzc-uN-kCF"/>
+                                <exclude reference="fBX-VW-0AF"/>
+                                <exclude reference="kac-Sa-kbv"/>
+                            </mask>
+                        </variation>
+                        <variation key="widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="unc-LL-T8q"/>
+                                <include reference="UtQ-OI-Y7P"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="GwM-cz-Jmy"/>
+                                <include reference="kzc-uN-kCF"/>
+                                <include reference="fBX-VW-0AF"/>
+                                <include reference="kac-Sa-kbv"/>
+                            </mask>
+                        </variation>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="249" y="333"/>
+            <point key="canvasLocation" x="215" y="289"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="launchScreenImage.png" width="248" height="138"/>
+    </resources>
 </document>

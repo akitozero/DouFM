@@ -198,7 +198,12 @@
             break;
         }
         case UIGestureRecognizerStateCancelled: {
-            
+            break;
+        }
+        case UIGestureRecognizerStatePossible: {
+            break;
+        }
+        case UIGestureRecognizerStateFailed: {
             break;
         }
     }

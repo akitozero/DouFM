@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		79F3C9CBBAEB06AE8D5BB897 /* libPods-DouFM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC8071754791A70F85209BDA /* libPods-DouFM.a */; };
 		A6221B7C1CD77AEA003DE8C0 /* PlayingMusicView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6221B7B1CD77AEA003DE8C0 /* PlayingMusicView.m */; };
+		A624761D1CE202CD0019BB44 /* launchScreenImage.png in Resources */ = {isa = PBXBuildFile; fileRef = A624761C1CE202CD0019BB44 /* launchScreenImage.png */; };
 		A65D25381CD34C3800218B59 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A65D25371CD34C3800218B59 /* main.m */; };
 		A65D253B1CD34C3800218B59 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A65D253A1CD34C3800218B59 /* AppDelegate.m */; };
 		A65D253E1CD34C3800218B59 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A65D253D1CD34C3800218B59 /* ViewController.m */; };
@@ -29,6 +30,7 @@
 /* Begin PBXFileReference section */
 		A6221B7A1CD77AEA003DE8C0 /* PlayingMusicView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayingMusicView.h; sourceTree = "<group>"; };
 		A6221B7B1CD77AEA003DE8C0 /* PlayingMusicView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayingMusicView.m; sourceTree = "<group>"; };
+		A624761C1CE202CD0019BB44 /* launchScreenImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launchScreenImage.png; sourceTree = "<group>"; };
 		A65D25331CD34C3800218B59 /* DouFM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DouFM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A65D25371CD34C3800218B59 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A65D25391CD34C3800218B59 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 		A65D25361CD34C3800218B59 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A624761C1CE202CD0019BB44 /* launchScreenImage.png */,
 				A65D25471CD34C3800218B59 /* Info.plist */,
 				A6EBE8451CE08A5F00BE4FFA /* playlist.plist */,
 				A65D25371CD34C3800218B59 /* main.m */,
@@ -254,6 +257,7 @@
 			files = (
 				A6EBE8461CE08A5F00BE4FFA /* playlist.plist in Resources */,
 				A65D25461CD34C3800218B59 /* LaunchScreen.storyboard in Resources */,
+				A624761D1CE202CD0019BB44 /* launchScreenImage.png in Resources */,
 				A65D25431CD34C3800218B59 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
