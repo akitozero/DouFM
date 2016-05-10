@@ -12,8 +12,6 @@
 @interface MenuCell ()
 
 @property (nonatomic, strong) UIView *foundationView;
-@property (nonatomic, strong) UIImageView *iconImageView;
-
 
 @end
 
@@ -36,14 +34,14 @@
 
 - (void)configureViews {
     self.foundationView = [[UIView alloc] init];
-    self.iconImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"green"]];
     self.optionLabel = [[UILabel alloc] init];
     
     self.foundationView.backgroundColor = RGBA(255, 255, 255, 0.24);
     self.optionLabel.text = @"options";
+    self.optionLabel.textAlignment = NSTextAlignmentCenter;
     
     [self.contentView addSubview:self.foundationView];
-    [self.contentView addSubview:self.iconImageView];
+//    [self.contentView addSubview:self.iconImageView];
     [self.contentView addSubview:self.optionLabel];
 }
 
@@ -55,14 +53,9 @@
         make.bottom.equalTo(self.contentView.mas_bottom).with.offset(-1);
     }];
     
-    [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.foundationView.mas_centerY).with.offset(0);
-        make.left.equalTo(self.foundationView.mas_left).with.offset(30);
-    }];
-    
     [self.optionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.foundationView.mas_centerY).with.offset(0);
-        make.left.equalTo(self.iconImageView.mas_right).with.offset(20);
+        make.left.equalTo(self.foundationView.mas_left).with.offset(50);
     }];
 }
 

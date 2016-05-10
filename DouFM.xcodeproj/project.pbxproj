@@ -17,6 +17,8 @@
 		A65D25681CD392FC00218B59 /* MusicListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A65D25661CD392FC00218B59 /* MusicListCell.m */; };
 		A65D25731CD4C0E700218B59 /* MyMusicTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A65D25721CD4C0E700218B59 /* MyMusicTableViewController.m */; };
 		A65D25761CD4C10200218B59 /* ExploreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A65D25751CD4C10200218B59 /* ExploreTableViewController.m */; };
+		A679741B1CE2456B00D5680C /* AboutCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A679741A1CE2456B00D5680C /* AboutCell.m */; };
+		A679741E1CE25CE600D5680C /* FirstUseGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = A679741D1CE25CE600D5680C /* FirstUseGuideView.m */; };
 		A69F856E1CD5047C00BEEEFD /* MusicEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = A69F856D1CD5047C00BEEEFD /* MusicEntity.m */; };
 		A69F85711CD5184A00BEEEFD /* PlayingMusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A69F85701CD5184A00BEEEFD /* PlayingMusicViewController.m */; };
 		A6EBE83B1CE03CB400BE4FFA /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6EBE83A1CE03CB400BE4FFA /* MenuViewController.m */; };
@@ -46,6 +48,10 @@
 		A65D25721CD4C0E700218B59 /* MyMusicTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyMusicTableViewController.m; sourceTree = "<group>"; };
 		A65D25741CD4C10200218B59 /* ExploreTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExploreTableViewController.h; sourceTree = "<group>"; };
 		A65D25751CD4C10200218B59 /* ExploreTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExploreTableViewController.m; sourceTree = "<group>"; };
+		A67974191CE2456B00D5680C /* AboutCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutCell.h; sourceTree = "<group>"; };
+		A679741A1CE2456B00D5680C /* AboutCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutCell.m; sourceTree = "<group>"; };
+		A679741C1CE25CE600D5680C /* FirstUseGuideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstUseGuideView.h; sourceTree = "<group>"; };
+		A679741D1CE25CE600D5680C /* FirstUseGuideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstUseGuideView.m; sourceTree = "<group>"; };
 		A69F856C1CD5047C00BEEEFD /* MusicEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicEntity.h; sourceTree = "<group>"; };
 		A69F856D1CD5047C00BEEEFD /* MusicEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicEntity.m; sourceTree = "<group>"; };
 		A69F856F1CD5184A00BEEEFD /* PlayingMusicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayingMusicViewController.h; sourceTree = "<group>"; };
@@ -185,6 +191,10 @@
 				A6221B7B1CD77AEA003DE8C0 /* PlayingMusicView.m */,
 				A6EBE8421CE07D5A00BE4FFA /* MenuCell.h */,
 				A6EBE8431CE07D5A00BE4FFA /* MenuCell.m */,
+				A67974191CE2456B00D5680C /* AboutCell.h */,
+				A679741A1CE2456B00D5680C /* AboutCell.m */,
+				A679741C1CE25CE600D5680C /* FirstUseGuideView.h */,
+				A679741D1CE25CE600D5680C /* FirstUseGuideView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -314,12 +324,14 @@
 			files = (
 				A6221B7C1CD77AEA003DE8C0 /* PlayingMusicView.m in Sources */,
 				A65D25731CD4C0E700218B59 /* MyMusicTableViewController.m in Sources */,
+				A679741E1CE25CE600D5680C /* FirstUseGuideView.m in Sources */,
 				A65D25681CD392FC00218B59 /* MusicListCell.m in Sources */,
 				A6EBE8411CE03E7800BE4FFA /* TabBarViewController.m in Sources */,
 				A69F85711CD5184A00BEEEFD /* PlayingMusicViewController.m in Sources */,
 				A69F856E1CD5047C00BEEEFD /* MusicEntity.m in Sources */,
 				A65D25761CD4C10200218B59 /* ExploreTableViewController.m in Sources */,
 				A6EBE8441CE07D5A00BE4FFA /* MenuCell.m in Sources */,
+				A679741B1CE2456B00D5680C /* AboutCell.m in Sources */,
 				A6EBE83E1CE03CD500BE4FFA /* RootViewController.m in Sources */,
 				A65D253B1CD34C3800218B59 /* AppDelegate.m in Sources */,
 				A65D25381CD34C3800218B59 /* main.m in Sources */,

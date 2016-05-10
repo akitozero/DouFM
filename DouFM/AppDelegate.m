@@ -26,7 +26,6 @@
     [NSThread sleepForTimeInterval:0.1];
     //检查是不是第一次启动
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"]) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
         //创建数据库
         NSArray *docPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDir = [docPaths objectAtIndex:0];

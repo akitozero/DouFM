@@ -10,6 +10,7 @@
 #import "TabBarViewController.h"
 #import "MenuViewController.h"
 #import "ExploreTableViewController.h"
+#import "FirstUseGuideView.h"
 
 @interface RootViewController ()<UIGestureRecognizerDelegate, CloseSideMenuDelegate>
 
@@ -17,6 +18,7 @@
 @property (strong, nonatomic) MenuViewController *menuViewController;
 @property (strong, nonatomic) UIImageView *backgroundImageView;
 @property (strong, nonatomic) UIButton *backgroundButton;
+@property (strong, nonatomic) FirstUseGuideView *firstUseGuideView;
 @property (assign, nonatomic) BOOL isSlided;
 @property (assign, nonatomic) CGFloat viewOffset;
 @property (strong, nonatomic) UIPanGestureRecognizer *panGestureRecognizer;
@@ -41,6 +43,16 @@
     self.menuViewController.delegate = self.tabBarViewController.exploreViewController;
     self.tabBarViewController.exploreViewController.delegate = self;
     
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"]) {
+        self.firstUseGuideView = [[FirstUseGuideView alloc] initWithFrame:self.view.bounds];
+        [self.view addSubview:self.firstUseGuideView];
+        [self.firstUseGuideView addGestureRecognizer:[[UIPanGestureRecognizer alloc] init]];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeFirstUseGuideView)];
+        [self.firstUseGuideView addGestureRecognizer:tap];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
+    }
+    
+    
 }
 
 
@@ -52,12 +64,10 @@
     self.tabBarViewController = [[TabBarViewController alloc] init];
     [self addChildViewController:self.tabBarViewController];
     
-    
-    
 }
 
 - (void)configtureViews {
-    self.backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"backgroundimage_2"]];
+    self.backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"backgroundimage_1"]];
     self.backgroundImageView.frame = self.view.bounds;
     [self.view addSubview:self.backgroundImageView];
     
@@ -205,6 +215,10 @@
         self.backgroundButton.hidden = YES;
         self.viewOffset = self.tabBarViewController.view.frame.origin.x;
     }];
+}
+
+- (void)removeFirstUseGuideView {
+    [self.firstUseGuideView removeFromSuperview];
 }
 
 - (void)didReceiveMemoryWarning {

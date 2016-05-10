@@ -1,6 +1,10 @@
-# DouFM
+# 简介
 
 西电校园网音乐播放器（仅限西电校园网内使用）
+
+# 展示
+
+![](http://7xqqt8.com1.z0.glb.clouddn.com/show.png)
 
 # 参考
 

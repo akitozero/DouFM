@@ -7,6 +7,7 @@
 //
 
 #import "MenuViewController.h"
+#import "AboutCell.h"
 #import "MenuCell.h"
 #import <Masonry.h>
 
@@ -65,26 +66,48 @@
 #pragma mark - tableview delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.playlistArray.count;
+    return self.playlistArray.count+1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    MenuCell *menuCell = [tableView dequeueReusableCellWithIdentifier:@"menuCell"];
-    if (!menuCell) {
-        menuCell = [[MenuCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"menuCell"];
+    if (indexPath.section == 0 && indexPath.row == 0) {
+        AboutCell *aboutCell = [tableView dequeueReusableCellWithIdentifier:@"aboutCell"];
+        if (!aboutCell) {
+            aboutCell = [[AboutCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"aboutCell"];
+        }
+        return aboutCell;
+    }else{
+        MenuCell *menuCell = [tableView dequeueReusableCellWithIdentifier:@"menuCell"];
+        if (!menuCell) {
+            menuCell = [[MenuCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"menuCell"];
+        }
+        NSDictionary *playlistInfo = [self.playlistArray objectAtIndex:indexPath.row-1];
+        menuCell.optionLabel.text = [playlistInfo objectForKey:@"name"];
+        return menuCell;
     }
-    NSDictionary *playlistInfo = [self.playlistArray objectAtIndex:indexPath.row];
-    menuCell.optionLabel.text = [playlistInfo objectForKey:@"name"];
-    return menuCell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 56;
+    if (indexPath.section == 0 && indexPath.row == 0) {
+        return 180;
+    }else{
+        return 56;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self.delegate changePlaylistTo:indexPath];
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 0 && indexPath.row == 0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"About us"
+                                                        message:@"feedback: pascocoder@gmail.com, thanks😃"
+                                                       delegate:self
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }else{
+        [self.delegate changePlaylistTo:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
+    
 }
 
 
