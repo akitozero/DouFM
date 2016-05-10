@@ -26,7 +26,6 @@
     
     self.myMusicArray = [[NSMutableArray alloc] init];
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        NSLog(@"shuaxingzhong");
         [self refreshTableView];
     }];
     [self.tableView.mj_header beginRefreshing];
@@ -62,13 +61,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    NSLog(@"MyMusicTableViewController+++++++++++++++++++");
     [self refreshTableView];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    NSLog(@"MyMusicTableViewController-------------------");
 }
 
 - (void)didReceiveMemoryWarning {
@@ -131,15 +124,6 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    return YES;
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        NSLog(@"123123123121");
-    }
-}
 
 #pragma mark - CurrentPlayingIndexDelegate
 
@@ -148,7 +132,6 @@
 }
 
 - (void)dealloc {
-    NSLog(@"my music table view controller is deallocing");
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"reloadMyMusicTableView" object:nil];
 }
 

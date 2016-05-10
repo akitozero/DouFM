@@ -40,12 +40,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //    self.view.backgroundColor = [UIColor greenColor];
     
     //获取playlist.plist文件内信息
     NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"playlist.plist" ofType:nil];
     self.playlistArray = [[NSMutableArray alloc] initWithContentsOfFile:plistPath];
-    NSLog(@"%@=============", self.playlistArray);
     [self.menuTableView reloadData];
 }
 

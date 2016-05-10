@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "ViewController.h"
 #import "MusicEntity.h"
 #import "RootViewController.h"
 #import "TabBarViewController.h"
@@ -17,8 +16,6 @@
 
 @interface AppDelegate ()
 
-//@property (strong, nonatomic) UITabBarController *tabBarController;
-
 @end
 
 @implementation AppDelegate
@@ -26,10 +23,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [NSThread sleepForTimeInterval:0.1];
     //检查是不是第一次启动
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HasLaunchedOnce"]) {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HasLaunchedOnce"];
-        NSLog(@"this is the first launch of DouFM");
         //创建数据库
         NSArray *docPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDir = [docPaths objectAtIndex:0];
@@ -57,13 +54,9 @@
     [UITabBar appearance].barTintColor = HEXCOLOR(0xf5f5f5);
     
     [UINavigationBar appearance].tintColor = [UIColor blackColor];
-//    [UINavigationBar appearance].barTintColor = HEXCOLOR(0xdf3031);
     [UINavigationBar appearance].titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
     [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"themeColor"] forBarMetrics: UIBarMetricsDefault];
-//    [[UINavigationBar appearance] setTranslucent:YES];
     [[UINavigationBar appearance] setShadowImage:[UIImage new]];
-//    self.navigationController.navigationBar.shadowImage = [UIImage new];
-//    self.navigationController.navigationBar.translucent = YES;
     
     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];

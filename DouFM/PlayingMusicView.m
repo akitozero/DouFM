@@ -67,14 +67,6 @@
     [self.backgroundImageView setContentMode:UIViewContentModeScaleToFill];
     [self.backgroundImageView setImage:cover];
     
-//    self.visualEffectView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
-//    [self.backgroundImageView addSubview:self.visualEffectView];
-//    [self.backgroundImageView addSubview:self.visualEffectView];
-    
-//    [self.isLikeButton setImage:[UIImage imageNamed:@"empty_heart"] forState:UIControlStateNormal];
-    
-//    [self.downloadButton setImage:[UIImage imageNamed:@"download"] forState:UIControlStateNormal];
-    
     [self.titleLabel setTextAlignment:NSTextAlignmentCenter];
 //    [self.titleLabel setText:self.musicEntity.title];
     [self.titleLabel setFont:kPlayingTitle];
@@ -122,8 +114,6 @@
     [self.backgroundImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self).with.insets(padding);
     }];
-    
-    NSLog(@"%f---%f---%f---%f",self.frame.origin.x,self.frame.origin.y,self.frame.size.width,self.frame.size.height);
     
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.coverImageView.mas_bottom).with.offset(20*kHeightScale);

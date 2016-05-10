@@ -51,7 +51,6 @@
         NSArray *responseArray = (NSArray *)responseObject;
         [responseArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             NSDictionary *dict = obj;
-            //            NSLog(@"dict----%@",dict);
             MusicEntity *musicEntity = [[MusicEntity alloc] init];
             musicEntity.album = [dict objectForKey:@"album"];
             musicEntity.artist = [dict objectForKey:@"artist"];
@@ -73,16 +72,6 @@
         [self.tableView.mj_header endRefreshing];
         [SVProgressHUD showErrorWithStatus:@"刷新失败"];
     }];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    NSLog(@"ExploreTableViewController+++++++++++++++++++");
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    NSLog(@"ExploreTableViewController-------------------");
 }
 
 - (BOOL)checkIsFavorite:(NSString *)key{
@@ -173,9 +162,7 @@
 #pragma mark - change playlist
 
 - (void)changePlaylistTo:(NSIndexPath *)indexPath {
-    NSLog(@"change playlist");
     //获取playlist.plist文件内信息
-    NSLog(@"%@++++++",self.tabBarController);
     [self.tabBarController setSelectedIndex:0];
     [self.delegate closeSideMenu];
     NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"playlist.plist" ofType:nil];

@@ -28,7 +28,6 @@
 
 - (void)loadView {
     [super loadView];
-    NSLog(@"loadview");
     [self configtureViewControllers];
     [self configtureViews];
 }
@@ -36,18 +35,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configureGesture];
-    
-    
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    NSLog(@"viewwillappear");
     self.panGestureRecognizer.delegate = self;
     self.edgePanGestureRecognizer.delegate = self;
     
     self.menuViewController.delegate = self.tabBarViewController.exploreViewController;
     self.tabBarViewController.exploreViewController.delegate = self;
+    
 }
 
 
@@ -78,7 +71,7 @@
     [self.view addSubview:self.menuViewController.view];
     
     [self.view addSubview:self.tabBarViewController.view];
-//
+
     self.backgroundButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.backgroundButton.frame = [UIScreen mainScreen].bounds;
     self.backgroundButton.backgroundColor = [UIColor blackColor];
@@ -111,16 +104,11 @@
     CGPoint location = [panGestureRecognizer translationInView:self.tabBarViewController.view];
     switch (panGestureRecognizer.state) {
         case UIGestureRecognizerStateBegan: {
-            //            self.startLocationX = panGestureRecognizer.;
-            //            NSLog(@"location.x = %f",location.x);
-            
             self.backgroundButton.hidden = NO;
-            NSLog(@"self.isSlide = %d",self.isSlided);
             break;
         }
         case UIGestureRecognizerStateChanged: {
             CGFloat offset = self.tabBarViewController.view.frame.origin.x;
-            NSLog(@"offset = %f",offset);
             CGRect tempFrame = CGRectMake(MAX(MIN(self.viewOffset + location.x, kScreenWidth/3.0*2.0),0), 0, kScreenWidth, kScreenHeight);
             self.tabBarViewController.view.frame = tempFrame;
             
@@ -132,12 +120,6 @@
         case UIGestureRecognizerStateEnded: {
             //            self.endLocationX = location.x;
             CGFloat velocity = [panGestureRecognizer velocityInView:self.view].x;
-            NSLog(@"velocity = %f",velocity);
-            NSLog(@"location.x = %f",location.x);
-            
-            NSLog(@"kScreenWidth/3 = %f",kScreenWidth/3);
-            NSLog(@"kScreenWidth/3*2 = %f",kScreenWidth/3*2);
-            NSLog(@"self.tabBarViewController.view.frame.origin.x = %f",self.tabBarViewController.view.frame.origin.x);
             //如果主视图已经是处于划开状态
             if (self.isSlided == YES) {
                 //如果主视图位置小于屏幕的1/3，或者滑动速度小于-800，则关闭划开的状态

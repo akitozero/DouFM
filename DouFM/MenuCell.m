@@ -24,7 +24,6 @@
     if (self) {
         self.clipsToBounds = YES;
         self.backgroundColor = [UIColor clearColor];
-//        self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self configureViews];
     }
     return self;

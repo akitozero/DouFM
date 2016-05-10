@@ -54,10 +54,7 @@ static void *kDurationKVOKey = &kDurationKVOKey;
 }
 
 - (void)viewDidLoad {
-    NSLog(@"viewDidLoad");
-//    self.edgesForExtendedLayout = UIRectEdgeNone;
     self.view.backgroundColor = [UIColor whiteColor];
-//    self.view.clipsToBounds = YES;
     
     self.playingMusicView = [[PlayingMusicView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:self.playingMusicView];
@@ -83,8 +80,6 @@ static void *kDurationKVOKey = &kDurationKVOKey;
 - (void)viewWillDisappear:(BOOL)animated
 {
     [_timer invalidate];
-//    [_streamer stop];
-//    [self _cancelStreamer];
     
     [super viewWillDisappear:animated];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"themeColor"] forBarMetrics:UIBarMetricsDefault];
@@ -136,25 +131,20 @@ static void *kDurationKVOKey = &kDurationKVOKey;
 
 - (void)_updateStatus
 {
-    NSLog(@"_updateStatus");
     switch ([_streamer status]) {
         case DOUAudioStreamerPlaying:
-            NSLog(@"DOUAudioStreamerPlaying");
             [self.playingMusicView.pasueButton setImage:[UIImage imageNamed:@"big_pause_button"] forState:UIControlStateNormal];
             break;
             
         case DOUAudioStreamerPaused:
-            NSLog(@"DOUAudioStreamerPaused");
             [self.playingMusicView.pasueButton setImage:[UIImage imageNamed:@"big_play_button"] forState:UIControlStateNormal];
             break;
             
         case DOUAudioStreamerIdle:
-            NSLog(@"DOUAudioStreamerIdle");
             [self.playingMusicView.pasueButton setImage:[UIImage imageNamed:@"big_play_button"] forState:UIControlStateNormal];
             break;
             
         case DOUAudioStreamerFinished:
-            NSLog(@"DOUAudioStreamerFinished");
             if (self.playStyle == PSCStyleSingleCycle) {
                 [self actionSingleCycle];
             }else {
@@ -164,11 +154,9 @@ static void *kDurationKVOKey = &kDurationKVOKey;
             break;
             
         case DOUAudioStreamerBuffering:
-            NSLog(@"DOUAudioStreamerBuffering");
             break;
             
         case DOUAudioStreamerError:
-            NSLog(@"DOUAudioStreamerError");
             break;
     }
 }
@@ -193,7 +181,6 @@ static void *kDurationKVOKey = &kDurationKVOKey;
 }
 
 - (void)viewDidLayoutSubviews {
-    NSLog(@"viewDidLayoutSubviews");
     UIEdgeInsets padding = UIEdgeInsetsMake(0, 0, 0, 0);
     [self.playingMusicView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view).with.insets(padding);
@@ -202,7 +189,6 @@ static void *kDurationKVOKey = &kDurationKVOKey;
 
 - (void)configureDatas {
     MusicEntity *musicEntity = [self.musicEntityArray objectAtIndex:self.currentTrackIndex];
-    NSLog(@"%@",musicEntity.title);
     self.playingMusicView.titleLabel.text = musicEntity.title;
     self.playingMusicView.artistLabel.text = musicEntity.artist;
     
@@ -272,7 +258,6 @@ static void *kDurationKVOKey = &kDurationKVOKey;
 }
 
 - (void)actionLike:(id)sender {
-    NSLog(@"isLikeButtonClicked");
     NSArray *docPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDir = [docPaths objectAtIndex:0];
     NSString *dbPath = [documentsDir   stringByAppendingPathComponent:@"DouFM.sqlite"];
@@ -297,12 +282,7 @@ static void *kDurationKVOKey = &kDurationKVOKey;
     [database close];
 }
 
-//- (void)actionDownload:(id)sender {
-//    NSLog(@"downloadButtonClicked");
-//}
-
 - (void)actionPlayStyle:(id)sender {
-    NSLog(@"playStyleButtonClicked");
     switch (self.playStyle) {
         case PSCStyleInOrder:
             self.playStyle = PSCStyleSingleCycle;
@@ -325,7 +305,6 @@ static void *kDurationKVOKey = &kDurationKVOKey;
 }
 
 - (void)actionPrevious:(id)sender {
-    NSLog(@"previousButtonClicked");
     if (self.playStyle == PSCStyleInOrder || self.playStyle == PSCStyleSingleCycle) {
         if (_currentTrackIndex <= [@0 integerValue]) {
             self.currentTrackIndex = [self.musicEntityArray count] - 1;
@@ -338,7 +317,6 @@ static void *kDurationKVOKey = &kDurationKVOKey;
 }
 
 - (void)actionPasue:(id)sender {
-    NSLog(@"pasueButtonClicked");
     if ([_streamer status] == DOUAudioStreamerPaused ||
         [_streamer status] == DOUAudioStreamerIdle) {
         [_streamer play];
@@ -355,27 +333,22 @@ static void *kDurationKVOKey = &kDurationKVOKey;
 }
 
 - (void)actionNext:(id)sender {
-    NSLog(@"nextButtonClicked");
     self.currentTrackIndex = (_currentTrackIndex + [self getRandomDigital])%[self.musicEntityArray count];
 }
 
 - (void)actionShare:(id)sender {
-    NSLog(@"shareButtonClicked");
 }
 
 - (void)actionProgressValueChange:(id)sender {
-    NSLog(@"actionProgressValueChange");
     [self.streamer setCurrentTime:self.streamer.duration * self.playingMusicView.progressSlider.value];
 }
 
 - (void)setCurrentTrackIndex:(NSInteger)currentTrackIndex {
-    NSLog(@"setCurrentTrackIndex-------%lu",(unsigned long)currentTrackIndex);
     _currentTrackIndex = currentTrackIndex;
     [self configureDatas];
     [self _resetStreamer];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadExploreTableView" object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadMyMusicTableView" object:nil];
-//    [NSNotificationCenter]
 }
 
 - (NSInteger)getRandomDigital {
@@ -397,7 +370,6 @@ static void *kDurationKVOKey = &kDurationKVOKey;
 }
 
 - (void)handlePanGestureRecognizer {
-    NSLog(@"handlePanGestureRecognizer");
 }
 
 - (void)didReceiveMemoryWarning {
