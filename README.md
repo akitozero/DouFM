@@ -4,7 +4,7 @@
 
 # 参考
 
-音乐播放的界面重度参（chao）考（xi）了![ESTMusicPlayer](https://github.com/Aufree/ESTMusicPlayer)，在此深表感谢。
+音乐播放的界面重度参（chao）考（xi）了[ESTMusicPlayer](https://github.com/Aufree/ESTMusicPlayer)，在此深表感谢。
 
 # 使用的开源组件
 
