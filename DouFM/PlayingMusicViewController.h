@@ -14,6 +14,7 @@
 
 @property (copy, nonatomic) NSArray *musicEntityArray;
 @property (assign, nonatomic) NSInteger currentTrackIndex;
+@property (strong, nonatomic) NSString *musicKey;
 @property (strong, nonatomic) PlayingMusicView *playingMusicView;
 @property (assign, nonatomic) NSInteger playStyle;
 @property (assign, nonatomic) NSInteger fromTabbarItem;

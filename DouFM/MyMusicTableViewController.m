@@ -30,8 +30,6 @@
         [self refreshTableView];
     }];
     [self.tableView.mj_header beginRefreshing];
-    
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:@"reloadMyMusicTableView" object:nil];
 }
 
@@ -42,7 +40,7 @@
     FMDatabase *database = [FMDatabase databaseWithPath:dbPath];
     [database open];
     
-    FMResultSet *result = [database executeQuery:@"select * from favorite"];
+    FMResultSet *result = [database executeQuery:@"select * from favorite order by id DESC"];
     [self.myMusicArray removeAllObjects];
     while ([result next]) {
         MusicEntity *musicEntity = [[MusicEntity alloc] init];
@@ -65,6 +63,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     NSLog(@"MyMusicTableViewController+++++++++++++++++++");
+    [self refreshTableView];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -101,7 +100,7 @@
     musicListCell.artistLabel.text = musicEntity.artist;
     
     if (self.playingMusicViewController) {
-        if (self.playingMusicViewController.currentTrackIndex == indexPath.row && self.playingMusicViewController.fromTabbarItem == PSCItemFavorite) {
+        if ([self.playingMusicViewController.musicKey isEqualToString:musicEntity.key] && self.playingMusicViewController.fromTabbarItem == PSCItemFavorite) {
             musicListCell.playingImageView.hidden = NO;
         }else{
             musicListCell.playingImageView.hidden = YES;
@@ -116,12 +115,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     self.playingMusicViewController = [PlayingMusicViewController sharedInstance];
     self.playingMusicViewController.musicEntityArray = [self.myMusicArray copy];
+    MusicEntity *musicEntity = [self.myMusicArray objectAtIndex:indexPath.row];
     
     //再次进入歌曲时，继续播放，而不是不从第0秒重新开始
-    if (self.playingMusicViewController.currentTrackIndex != indexPath.row || self.playingMusicViewController.fromTabbarItem != PSCItemFavorite) {
+    if (![self.playingMusicViewController.musicKey isEqualToString:musicEntity.key] || self.playingMusicViewController.fromTabbarItem != PSCItemFavorite) {
         self.playingMusicViewController.currentTrackIndex = indexPath.row;
+        self.playingMusicViewController.musicKey = musicEntity.key;
         self.playingMusicViewController.fromTabbarItem = PSCItemFavorite;
     }
+    
     
     self.playingMusicViewController.playStyle = (NSInteger)[[NSUserDefaults standardUserDefaults] integerForKey:@"playStyle"];
     [self.playingMusicViewController setHidesBottomBarWhenPushed:YES];
@@ -129,6 +131,15 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        NSLog(@"123123123121");
+    }
+}
 
 #pragma mark - CurrentPlayingIndexDelegate
 
